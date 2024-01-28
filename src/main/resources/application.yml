@@ -1,0 +1,6 @@
+s3:
+  #  accessKey: Provided in env var for security
+  #  secretKey: Provided in env var for security
+  #  bucketName: Provided in env var for security
+  serviceName: s3
+  regionName: US_EAST_2
