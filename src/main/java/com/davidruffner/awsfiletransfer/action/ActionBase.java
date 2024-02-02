@@ -7,5 +7,5 @@ public abstract class ActionBase {
     protected String keyName;
     protected String containerName;
 
-    protected abstract void doAction();
+    protected abstract ActionResponse doAction();
 }

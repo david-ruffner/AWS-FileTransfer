@@ -1,5 +1,6 @@
 package com.davidruffner.awsfiletransfer.action;
 
+import com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseBuilder;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageBase;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageControllerFactory;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageControllerType;
@@ -8,8 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Optional;
+
+import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.FAIL;
+import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.SUCCESS;
 
 public class UploadObjectAction extends ActionBase {
     private InputStream inputStream;
@@ -23,13 +28,26 @@ public class UploadObjectAction extends ActionBase {
         this.metadata = builder.metadata;
     }
 
-    protected void doAction() {
-        if (this.metadata.isPresent()) {
-            super.storageController.uploadObject(super.keyName, this.inputStream,
-                    super.containerName, this.metadata.get());
-        } else {
-            super.storageController.uploadObject(super.keyName, this.inputStream,
-                    super.containerName);
+    @Override
+    protected ActionResponse doAction() {
+        try {
+            if (this.metadata.isPresent()) {
+                super.storageController.uploadObject(super.keyName, this.inputStream,
+                        super.containerName, this.metadata.get());
+            } else {
+                super.storageController.uploadObject(super.keyName, this.inputStream,
+                        super.containerName);
+            }
+
+            return new ActionResponseBuilder(SUCCESS)
+                    .withResponseMessage(String.format(
+                            "File '%s' successfully uploaded to container '%s'",
+                            super.keyName, super.containerName))
+                    .build();
+        } catch (RuntimeException ex) {
+            return new ActionResponseBuilder(FAIL)
+                    .withErrorMessage(ex.getMessage())
+                    .build();
         }
     }
 
@@ -37,7 +55,7 @@ public class UploadObjectAction extends ActionBase {
     @Scope(value = "prototype")
     public static class Builder {
         @Autowired
-        protected StorageControllerFactory storageControllerFactory;
+        private StorageControllerFactory storageControllerFactory;
 
         public StorageControllerStep newBuilder() {
             return new Steps(this.storageControllerFactory);
@@ -52,7 +70,7 @@ public class UploadObjectAction extends ActionBase {
         }
 
         public interface ContainerNameStep {
-            InputStreamStep containerName(String containerName);
+            Builder.InputStreamStep containerName(String containerName);
         }
 
         public interface InputStreamStep {
@@ -61,7 +79,7 @@ public class UploadObjectAction extends ActionBase {
 
         public interface OptionalStep {
             OptionalStep withMetadata(MetadataBase metadata);
-            void doAction();
+            ActionResponse doAction();
         }
 
         private static class Steps implements StorageControllerStep, KeyNameStep, ContainerNameStep,
@@ -98,16 +116,14 @@ public class UploadObjectAction extends ActionBase {
                 return this;
             }
 
-            @Override
             public OptionalStep withMetadata(MetadataBase metadata) {
                 this.metadata = Optional.of(metadata);
                 return this;
             }
 
-            @Override
-            public void doAction() {
+            public ActionResponse doAction() {
                 UploadObjectAction action = new UploadObjectAction(this);
-                action.doAction();
+                return action.doAction();
             }
         }
     }
