@@ -1,4 +1,4 @@
-package com.davidruffner.awsfiletransfer.storage;
+package com.davidruffner.awsfiletransfer.storage.controllers;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
