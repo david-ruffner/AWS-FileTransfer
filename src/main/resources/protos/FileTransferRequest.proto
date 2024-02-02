@@ -1,0 +1,6 @@
+message FileTransferRequest {
+  required string fileName = 1;
+  required bytes data = 2;
+
+  optional string bucketName = 3;
+}

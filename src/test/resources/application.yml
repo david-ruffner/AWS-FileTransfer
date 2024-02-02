@@ -1,6 +1,6 @@
 s3:
-  #  accessKey: Provided in env var for security
-  #  secretKey: Provided in env var for security
+#  accessKey: Provided in env var for security
+#  secretKey: Provided in env var for security
   port: 9000
   address: localhost
   regionName: US_EAST_2
