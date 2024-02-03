@@ -1,7 +1,7 @@
-package com.davidruffner.awsfiletransfer.action;
+package com.davidruffner.awsfiletransfer.action.objectActions;
 
+import com.davidruffner.awsfiletransfer.action.ActionResponse;
 import com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseBuilder;
-import com.davidruffner.awsfiletransfer.storage.controllers.S3StorageObject;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageBase;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageControllerFactory;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageControllerType;
@@ -12,25 +12,24 @@ import org.springframework.stereotype.Component;
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.FAIL;
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.SUCCESS;
 
-public class GetObjectAction extends ActionBase {
+public class ObjectExistsAction {
+    private String keyName;
+    private String containerName;
+    private StorageBase storageController;
 
-    private GetObjectAction(Builder.Steps builder) {
-        super.storageController = builder.storageController;
-        super.keyName = builder.keyName;
-        super.containerName = builder.containerName;
+    private ObjectExistsAction(ObjectExistsActionBuilder.Steps builder) {
+        this.keyName = builder.keyName;
+        this.containerName = builder.containerName;
+        this.storageController = builder.storageController;
     }
 
-    @Override
     protected ActionResponse doAction() {
         try {
-            S3StorageObject storageObject = super.storageController
-                    .getObject(super.keyName, super.containerName);
+            boolean doesExist = this.storageController
+                    .doesObjectExist(this.keyName, this.containerName);
 
             return new ActionResponseBuilder(SUCCESS)
-                    .withResponseMessage(String.format(
-                            "File '%s' successfully retrieved from container '%s'",
-                            super.keyName, super.containerName))
-                    .withStorageObject(storageObject)
+                    .withResponseFlag(doesExist)
                     .build();
         } catch (RuntimeException ex) {
             return new ActionResponseBuilder(FAIL)
@@ -41,7 +40,7 @@ public class GetObjectAction extends ActionBase {
 
     @Component
     @Scope(value = "prototype")
-    public static class Builder {
+    public static class ObjectExistsActionBuilder {
         @Autowired
         private StorageControllerFactory storageControllerFactory;
 
@@ -65,8 +64,8 @@ public class GetObjectAction extends ActionBase {
             ActionResponse doAction();
         }
 
-        private static class Steps implements StorageControllerStep, KeyNameStep, ContainerNameStep,
-        ActionStep {
+        private static class Steps implements StorageControllerStep, KeyNameStep,
+        ContainerNameStep, ActionStep {
             private StorageBase storageController;
             private StorageControllerFactory storageControllerFactory;
             private String keyName;
@@ -93,7 +92,7 @@ public class GetObjectAction extends ActionBase {
             }
 
             public ActionResponse doAction() {
-                GetObjectAction action = new GetObjectAction(this);
+                ObjectExistsAction action = new ObjectExistsAction(this);
                 return action.doAction();
             }
         }

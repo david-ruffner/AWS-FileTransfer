@@ -1,48 +1,38 @@
-package com.davidruffner.awsfiletransfer.action;
+package com.davidruffner.awsfiletransfer.action.objectActions;
 
+import com.davidruffner.awsfiletransfer.action.ActionBase;
+import com.davidruffner.awsfiletransfer.action.ActionResponse;
 import com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseBuilder;
+import com.davidruffner.awsfiletransfer.storage.controllers.S3StorageObject;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageBase;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageControllerFactory;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageControllerType;
-import com.davidruffner.awsfiletransfer.storage.metadata.MetadataBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.InputStream;
-import java.util.Optional;
-
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.FAIL;
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.SUCCESS;
 
-public class UploadObjectAction extends ActionBase {
-    private InputStream inputStream;
-    private Optional<MetadataBase> metadata;
+public class GetObjectAction extends ActionBase {
 
-    private UploadObjectAction(Builder.Steps builder) {
+    private GetObjectAction(Builder.Steps builder) {
         super.storageController = builder.storageController;
         super.keyName = builder.keyName;
         super.containerName = builder.containerName;
-        this.inputStream = builder.inputStream;
-        this.metadata = builder.metadata;
     }
 
     @Override
     protected ActionResponse doAction() {
         try {
-            if (this.metadata.isPresent()) {
-                super.storageController.uploadObject(super.keyName, this.inputStream,
-                        super.containerName, this.metadata.get());
-            } else {
-                super.storageController.uploadObject(super.keyName, this.inputStream,
-                        super.containerName);
-            }
+            S3StorageObject storageObject = super.storageController
+                    .getObject(super.keyName, super.containerName);
 
             return new ActionResponseBuilder(SUCCESS)
                     .withResponseMessage(String.format(
-                            "File '%s' successfully uploaded to container '%s'",
+                            "File '%s' successfully retrieved from container '%s'",
                             super.keyName, super.containerName))
+                    .withStorageObject(storageObject)
                     .build();
         } catch (RuntimeException ex) {
             return new ActionResponseBuilder(FAIL)
@@ -70,34 +60,27 @@ public class UploadObjectAction extends ActionBase {
         }
 
         public interface ContainerNameStep {
-            Builder.InputStreamStep containerName(String containerName);
+            ActionStep containerName(String containerName);
         }
 
-        public interface InputStreamStep {
-            OptionalStep inputStream(InputStream inputStream);
-        }
-
-        public interface OptionalStep {
-            OptionalStep withMetadata(MetadataBase metadata);
+        public interface ActionStep {
             ActionResponse doAction();
         }
 
         private static class Steps implements StorageControllerStep, KeyNameStep, ContainerNameStep,
-                InputStreamStep, OptionalStep {
+        ActionStep {
             private StorageBase storageController;
             private StorageControllerFactory storageControllerFactory;
             private String keyName;
             private String containerName;
-            private InputStream inputStream;
-            private Optional<MetadataBase> metadata = Optional.empty();
 
             private Steps(StorageControllerFactory storageControllerFactory) {
                 this.storageControllerFactory = storageControllerFactory;
             }
 
-            public KeyNameStep storageController(StorageControllerType controller) {
+            public KeyNameStep storageController(StorageControllerType controllerType) {
                 this.storageController =
-                        this.storageControllerFactory.getStorageController(controller);
+                        this.storageControllerFactory.getStorageController(controllerType);
                 return this;
             }
 
@@ -106,23 +89,13 @@ public class UploadObjectAction extends ActionBase {
                 return this;
             }
 
-            public InputStreamStep containerName(String containerName) {
+            public ActionStep containerName(String containerName) {
                 this.containerName = containerName;
                 return this;
             }
 
-            public OptionalStep inputStream(InputStream inputStream) {
-                this.inputStream = inputStream;
-                return this;
-            }
-
-            public OptionalStep withMetadata(MetadataBase metadata) {
-                this.metadata = Optional.of(metadata);
-                return this;
-            }
-
             public ActionResponse doAction() {
-                UploadObjectAction action = new UploadObjectAction(this);
+                GetObjectAction action = new GetObjectAction(this);
                 return action.doAction();
             }
         }

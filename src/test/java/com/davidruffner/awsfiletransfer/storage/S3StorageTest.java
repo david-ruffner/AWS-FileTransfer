@@ -2,7 +2,7 @@ package com.davidruffner.awsfiletransfer.storage;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import com.davidruffner.awsfiletransfer.action.UploadObjectAction;
+import com.davidruffner.awsfiletransfer.action.objectActions.UploadObjectAction;
 import com.davidruffner.awsfiletransfer.storage.controllers.S3Storage;
 import com.davidruffner.awsfiletransfer.storage.controllers.S3StorageObject;
 import com.davidruffner.awsfiletransfer.storage.metadata.S3Metadata;

@@ -17,12 +17,14 @@ public class ActionResponse {
 
     private Optional<String> responseMessage = Optional.empty();
     private Optional<String> errorMessage = Optional.empty();
+    private Optional<Boolean> responseFlag = Optional.empty();
     private Optional<S3StorageObject> storageObject = Optional.empty();
 
     private ActionResponse(ActionResponseBuilder actionResponseBuilder) {
         this.responseCode = actionResponseBuilder.responseCode;
         this.responseMessage = actionResponseBuilder.responseMessage;
         this.errorMessage = actionResponseBuilder.errorMessage;
+        this.responseFlag = actionResponseBuilder.responseFlag;
         this.storageObject = actionResponseBuilder.storageObject;
     }
 
@@ -38,6 +40,10 @@ public class ActionResponse {
         return errorMessage;
     }
 
+    public Optional<Boolean> getResponseFlag() {
+        return responseFlag;
+    }
+
     public Optional<S3StorageObject> getStorageObject() {
         return storageObject;
     }
@@ -46,6 +52,7 @@ public class ActionResponse {
         private ActionResponseCode responseCode;
         private Optional<String> responseMessage = Optional.empty();
         private Optional<String> errorMessage = Optional.empty();
+        private Optional<Boolean> responseFlag = Optional.empty();
         private Optional<S3StorageObject> storageObject = Optional.empty();
 
         public ActionResponseBuilder(ActionResponseCode responseCode) {
@@ -59,6 +66,11 @@ public class ActionResponse {
 
         public ActionResponseBuilder withErrorMessage(String errorMessage) {
             this.errorMessage = Optional.of(String.format(ERR_MSG, errorMessage));
+            return this;
+        }
+
+        public ActionResponseBuilder withResponseFlag(Boolean responseFlag) {
+            this.responseFlag = Optional.of(responseFlag);
             return this;
         }
 
