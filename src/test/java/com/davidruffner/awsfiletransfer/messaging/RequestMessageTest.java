@@ -1,5 +1,6 @@
 package com.davidruffner.awsfiletransfer.messaging;
 
+import com.davidruffner.awsfiletransfer.configuration.FileStreamingConfiguration;
 import com.davidruffner.awsfiletransfer.configuration.storage.S3Configuration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,12 @@ public class RequestMessageTest {
     @Autowired
     S3Configuration s3Configuration;
 
+    @Autowired
+    FileStreamingConfiguration fileStreamingConfiguration;
+
     @Test
     void testS3Config() throws Exception {
-
+        System.out.printf("\nPatt: %s\n", fileStreamingConfiguration.getStreamPacketHeaderRegex());
     }
 
     @Test

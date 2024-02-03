@@ -16,7 +16,31 @@ spring:
     consumer:
       group-id: my-group
 
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  datasource:
+    url: "jdbc:mysql://localhost:3306/file_transfer"
+#    username:
+#    password:
+    driver-class-name: com.mysql.jdbc.Driver
+
 validation:
   validKeyName: ^[A-Za-z0-9\!\@\#\$\%\^\-\_\.\?\=\+\~\<\>\s]{1,50}$
   validContainerName: ^[A-Za-z0-9\_\-]{1,50}$
   validMetadataValue: ^[A-Za-z0-9\!\@\#\$\%\^\-\_\.\?\=\+\~\<\>\(\)\*\s\\\/]{1,500}$
+
+fileStreaming:
+  tempPath: /tmp/FileTransfer/
+  streamIdLength: 16
+  streamPacketHeaderLength: 50
+  streamPacketHeaderRegex: ^([a-z0-9\-]{${fileStreaming.streamIdLength}})_(\d+)_(c|s).*$
+  chunkSize: 10000
+  hostAddress: 127.0.0.1
+  hostPort: 7500
