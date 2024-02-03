@@ -1,5 +1,6 @@
 package com.davidruffner.awsfiletransfer.action.objectActions;
 
+import com.davidruffner.awsfiletransfer.action.ActionBase;
 import com.davidruffner.awsfiletransfer.action.ActionResponse;
 import com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseBuilder;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageBase;
@@ -12,17 +13,18 @@ import org.springframework.stereotype.Component;
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.FAIL;
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.SUCCESS;
 
-public class DeleteObjectAction {
-    private String keyName;
-    private String containerName;
-    private StorageBase storageController;
+public class DeleteObjectAction extends ActionBase {
+//    private String keyName;
+//    private String containerName;
+//    private StorageBase storageController;
 
     private DeleteObjectAction(DeleteObjectActionBuilder.Steps builder) {
-        this.keyName = builder.keyName;
-        this.containerName = builder.containerName;
-        this.storageController = builder.storageController;
+        super.keyName = builder.keyName;
+        super.containerName = builder.containerName;
+        super.storageController = builder.storageController;
     }
 
+    @Override
     protected ActionResponse doAction() {
         try {
             this.storageController.deleteObject(this.keyName, this.containerName);

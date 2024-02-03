@@ -56,8 +56,12 @@ public class S3StorageObject {
         syncChanges();
     }
 
-    public void addMetadata(Map<String, String> metadataMap) throws RuntimeException {
-        this.metadata.setUserMetadata(metadataMap);
+    public void addMetadata(Map<String, String> newMetadataMap) throws RuntimeException {
+        Map<String, String> currentMetadata = this.metadata.getUserMetadata();
+        newMetadataMap.forEach((key, val) -> currentMetadata.merge(
+                key, val, (v1, v2) -> v2));
+
+        this.metadata.setUserMetadata(currentMetadata);
         syncChanges();
     }
 

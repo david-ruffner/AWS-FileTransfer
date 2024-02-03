@@ -1,9 +1,11 @@
 package com.davidruffner.awsfiletransfer.action;
 
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.davidruffner.awsfiletransfer.action.objectActions.*;
 import com.davidruffner.awsfiletransfer.action.objectActions.DeleteObjectAction.DeleteObjectActionBuilder;
 import com.davidruffner.awsfiletransfer.action.objectActions.MoveObjectAction.MoveObjectActionBuilder;
 import com.davidruffner.awsfiletransfer.action.objectActions.ObjectExistsAction.ObjectExistsActionBuilder;
+import com.davidruffner.awsfiletransfer.action.objectActions.ObjectMetadataAction.ObjectMetadataActionBuilder;
 import com.davidruffner.awsfiletransfer.action.objectActions.RenameObjectAction.RenameObjectActionBuilder;
 import com.davidruffner.awsfiletransfer.storage.controllers.S3Storage;
 import com.davidruffner.awsfiletransfer.storage.controllers.S3StorageObject;
@@ -22,7 +24,9 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.FAIL;
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.SUCCESS;
+import static com.davidruffner.awsfiletransfer.action.objectActions.ObjectMetadataAction.MetadataActionType.*;
 import static com.davidruffner.awsfiletransfer.storage.controllers.StorageControllerType.S3;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -53,6 +57,9 @@ public class ObjectActionTest {
 
     @Autowired
     ObjectExistsActionBuilder existsBuilder;
+
+    @Autowired
+    ObjectMetadataActionBuilder metadataBuilder;
 
     @Autowired
     S3Storage s3Storage;
@@ -244,5 +251,292 @@ public class ObjectActionTest {
         assertEquals(SUCCESS, deleteResponse.getResponseCode());
         assertTrue(deleteResponse.getResponseFlag().isPresent());
         assertFalse(deleteResponse.getResponseFlag().get());
+    }
+
+    @Test
+    void testAddObjectMetadata_SingleValue() {
+        String data = "Hello World!";
+        InputStream dataStream = IOUtils.toInputStream(data,
+                StandardCharsets.UTF_8);
+        s3Storage.uploadObject("MyFile", dataStream, BUCKET_NAME);
+
+        S3StorageObject downloadedObj = s3Storage.getObject("MyFile", BUCKET_NAME);
+        assertFalse(downloadedObj.hasMetadata());
+
+        ActionResponse actionResponse = metadataBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("MyFile")
+                .containerName(BUCKET_NAME)
+                .metadataActionType(ADD_METADATA)
+                .withMetadataKey("user-description")
+                .withNewMetadataValue("A description")
+                .doAction();
+        assertEquals(SUCCESS, actionResponse.getResponseCode());
+
+        S3StorageObject updatedObj = s3Storage.getObject("MyFile", BUCKET_NAME);
+        assertTrue(updatedObj.hasMetadata());
+        assertEquals("A description", updatedObj.getMetadata("user-description"));
+
+        s3Storage.deleteObject("MyFile", BUCKET_NAME);
+    }
+
+    @Test
+    void testAddObjectMetadataMap() {
+        Map<String, String> originalMetadata = Map.ofEntries(
+                Map.entry("user-description", "A description."),
+                Map.entry("user-tag", "A tag value")
+        );
+
+        Map<String, String> newMetadataMap = Map.ofEntries(
+                Map.entry("new-tag", "A new tag value"),
+                Map.entry("user-description", "A new description.")
+        );
+
+        String data = "Hello World!";
+        InputStream dataStream = IOUtils.toInputStream(data,
+                StandardCharsets.UTF_8);
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setUserMetadata(originalMetadata);
+        s3Storage.uploadObject("MyFile", dataStream, BUCKET_NAME, new S3Metadata(metadata));
+
+        assertEquals(2, s3Storage.getAllMetadata("MyFile", BUCKET_NAME).size());
+        assertEquals("A description.", s3Storage.getMetadata("MyFile",
+                BUCKET_NAME, "user-description"));
+
+        ActionResponse actionResponse = metadataBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("MyFile")
+                .containerName(BUCKET_NAME)
+                .metadataActionType(ADD_METADATA)
+                .withMetadataMap(newMetadataMap)
+                .doAction();
+
+        assertEquals(SUCCESS, actionResponse.getResponseCode());
+        assertTrue(actionResponse.getResponseMessage().isPresent());
+        assertEquals(3, s3Storage.getAllMetadata("MyFile", BUCKET_NAME).size());
+        assertEquals("A new description.", s3Storage.getMetadata("MyFile",
+                BUCKET_NAME, "user-description"));
+        System.out.printf("\n\nUser Metadata After Map Update: %s\n\n",
+                s3Storage.getAllMetadata("MyFile", BUCKET_NAME));
+
+        s3Storage.deleteObject("MyFile", BUCKET_NAME);
+    }
+
+    @Test
+    void testAddMetadataWithoutRequiredParams() {
+        ActionResponse actionResponse = metadataBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("MyFile")
+                .containerName(BUCKET_NAME)
+                .metadataActionType(ADD_METADATA)
+                .doAction();
+
+        assertEquals(FAIL, actionResponse.getResponseCode());
+        assertTrue(actionResponse.getErrorMessage().isPresent());
+        System.out.printf("\n\nAdd Metadata Without Required Params Error Msg: %s\n\n",
+                actionResponse.getErrorMessage().get());
+    }
+
+    @Test
+    void testAddMetadataWithPartialRequiredParams() {
+        ActionResponse actionResponse = metadataBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("MyFile")
+                .containerName(BUCKET_NAME)
+                .metadataActionType(ADD_METADATA)
+                .withMetadataKey("MetaKey")
+                .doAction();
+
+        assertEquals(FAIL, actionResponse.getResponseCode());
+        assertTrue(actionResponse.getErrorMessage().isPresent());
+        System.out.printf("\n\nAdd Metadata Without Required Params Error Msg: %s\n\n",
+                actionResponse.getErrorMessage().get());
+    }
+
+    @Test
+    void testUpdateObjectMetadata_SingleValue() {
+        Map<String, String> originalMetadata = Map.ofEntries(
+                Map.entry("user-description", "A description")
+        );
+
+        String data = "Hello World!";
+        InputStream dataStream = IOUtils.toInputStream(data,
+                StandardCharsets.UTF_8);
+        s3Storage.uploadObject("MyFile", dataStream, BUCKET_NAME,
+                new S3Metadata(originalMetadata));
+
+        S3StorageObject downloadedObj = s3Storage.getObject("MyFile", BUCKET_NAME);
+        assertEquals("A description", downloadedObj.getMetadata("user-description"));
+
+        ActionResponse actionResponse = metadataBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("MyFile")
+                .containerName(BUCKET_NAME)
+                .metadataActionType(UPDATE_METADATA)
+                .withMetadataKey("user-description")
+                .withNewMetadataValue("A new description")
+                .doAction();
+        assertEquals(SUCCESS, actionResponse.getResponseCode());
+
+        S3StorageObject updatedObj = s3Storage.getObject("MyFile", BUCKET_NAME);
+        assertEquals("A new description", updatedObj.getMetadata("user-description"));
+
+        s3Storage.deleteObject("MyFile", BUCKET_NAME);
+    }
+
+    @Test
+    void testUpdateObjectMetadataMap() {
+        Map<String, String> originalMetadata = Map.ofEntries(
+                Map.entry("user-description", "A description."),
+                Map.entry("user-tag", "A tag value")
+        );
+
+        Map<String, String> newMetadataMap = Map.ofEntries(
+                Map.entry("new-tag", "A new tag value"),
+                Map.entry("new-tag-2", "A new second tag value.")
+        );
+
+        String data = "Hello World!";
+        InputStream dataStream = IOUtils.toInputStream(data,
+                StandardCharsets.UTF_8);
+        s3Storage.uploadObject("MyFile", dataStream, BUCKET_NAME,
+                new S3Metadata(originalMetadata));
+
+        assertEquals(2, s3Storage.getAllMetadata("MyFile", BUCKET_NAME).size());
+        assertEquals("A description.", s3Storage.getMetadata("MyFile",
+                BUCKET_NAME, "user-description"));
+
+        ActionResponse actionResponse = metadataBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("MyFile")
+                .containerName(BUCKET_NAME)
+                .metadataActionType(UPDATE_METADATA)
+                .withMetadataMap(newMetadataMap)
+                .doAction();
+
+        assertEquals(SUCCESS, actionResponse.getResponseCode());
+        assertTrue(actionResponse.getResponseMessage().isPresent());
+        assertEquals(2, s3Storage.getAllMetadata("MyFile", BUCKET_NAME).size());
+        assertEquals("A new tag value", s3Storage.getMetadata("MyFile",
+                BUCKET_NAME, "new-tag"));
+        System.out.printf("\n\nUser Metadata After Map Update: %s\n\n",
+                s3Storage.getAllMetadata("MyFile", BUCKET_NAME));
+
+        s3Storage.deleteObject("MyFile", BUCKET_NAME);
+    }
+
+    @Test
+    void testDeleteMetadata_SingleValue() {
+        Map<String, String> originalMetadata = Map.ofEntries(
+                Map.entry("user-description", "A description")
+        );
+
+        String data = "Hello World!";
+        InputStream dataStream = IOUtils.toInputStream(data,
+                StandardCharsets.UTF_8);
+        s3Storage.uploadObject("MyFile", dataStream, BUCKET_NAME,
+                new S3Metadata(originalMetadata));
+
+        S3StorageObject downloadedObj = s3Storage.getObject("MyFile", BUCKET_NAME);
+        assertTrue(downloadedObj.hasMetadata());
+
+        ActionResponse actionResponse = metadataBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("MyFile")
+                .containerName(BUCKET_NAME)
+                .metadataActionType(DELETE_METADATA)
+                .withMetadataKey("user-description")
+                .doAction();
+
+        S3StorageObject updatedObj = s3Storage.getObject("MyFile", BUCKET_NAME);
+        assertFalse(updatedObj.hasMetadata());
+
+        s3Storage.deleteObject("MyFile", BUCKET_NAME);
+    }
+
+    @Test
+    void testDeleteMetadata_Map() {
+        Map<String, String> originalMetadata = Map.ofEntries(
+                Map.entry("user-description", "A description")
+        );
+
+        String data = "Hello World!";
+        InputStream dataStream = IOUtils.toInputStream(data,
+                StandardCharsets.UTF_8);
+        s3Storage.uploadObject("MyFile", dataStream, BUCKET_NAME,
+                new S3Metadata(originalMetadata));
+
+        S3StorageObject downloadedObj = s3Storage.getObject("MyFile", BUCKET_NAME);
+        assertTrue(downloadedObj.hasMetadata());
+
+        ActionResponse actionResponse = metadataBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("MyFile")
+                .containerName(BUCKET_NAME)
+                .metadataActionType(DELETE_ALL_METADATA)
+                .doAction();
+
+        S3StorageObject updatedObj = s3Storage.getObject("MyFile", BUCKET_NAME);
+        assertFalse(updatedObj.hasMetadata());
+
+        s3Storage.deleteObject("MyFile", BUCKET_NAME);
+    }
+
+    @Test
+    void testGetMetadata_SingleValue() {
+        Map<String, String> originalMetadata = Map.ofEntries(
+                Map.entry("user-description", "A description")
+        );
+
+        String data = "Hello World!";
+        InputStream dataStream = IOUtils.toInputStream(data,
+                StandardCharsets.UTF_8);
+        s3Storage.uploadObject("MyFile", dataStream, BUCKET_NAME,
+                new S3Metadata(originalMetadata));
+
+        ActionResponse actionResponse = metadataBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("MyFile")
+                .containerName(BUCKET_NAME)
+                .metadataActionType(GET_METADATA)
+                .withMetadataKey("user-description")
+                .doAction();
+
+        assertEquals(SUCCESS, actionResponse.getResponseCode());
+        assertTrue(actionResponse.getMetadataMap().isPresent());
+        assertEquals("A description",
+                actionResponse.getMetadataMap().get().get("user-description"));
+
+        s3Storage.deleteObject("MyFile", BUCKET_NAME);
+    }
+
+    @Test
+    void testGetMetadata_Map() {
+        Map<String, String> originalMetadata = Map.ofEntries(
+                Map.entry("user-description", "A description"),
+                Map.entry("user-tag", "A user tag value")
+        );
+
+        String data = "Hello World!";
+        InputStream dataStream = IOUtils.toInputStream(data,
+                StandardCharsets.UTF_8);
+        s3Storage.uploadObject("MyFile", dataStream, BUCKET_NAME,
+                new S3Metadata(originalMetadata));
+
+        ActionResponse actionResponse = metadataBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("MyFile")
+                .containerName(BUCKET_NAME)
+                .metadataActionType(GET_ALL_METADATA)
+                .doAction();
+
+        assertEquals(SUCCESS, actionResponse.getResponseCode());
+        assertTrue(actionResponse.getMetadataMap().isPresent());
+        assertEquals("A description",
+                actionResponse.getMetadataMap().get().get("user-description"));
+        assertEquals("A user tag value",
+                actionResponse.getMetadataMap().get().get("user-tag"));
+
+        s3Storage.deleteObject("MyFile", BUCKET_NAME);
     }
 }

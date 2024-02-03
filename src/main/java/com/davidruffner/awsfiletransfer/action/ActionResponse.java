@@ -2,6 +2,7 @@ package com.davidruffner.awsfiletransfer.action;
 
 import com.davidruffner.awsfiletransfer.storage.controllers.S3StorageObject;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class ActionResponse {
@@ -17,6 +18,7 @@ public class ActionResponse {
 
     private Optional<String> responseMessage = Optional.empty();
     private Optional<String> errorMessage = Optional.empty();
+    private Optional<Map<String, String>> metadataMap = Optional.empty();
     private Optional<Boolean> responseFlag = Optional.empty();
     private Optional<S3StorageObject> storageObject = Optional.empty();
 
@@ -24,6 +26,7 @@ public class ActionResponse {
         this.responseCode = actionResponseBuilder.responseCode;
         this.responseMessage = actionResponseBuilder.responseMessage;
         this.errorMessage = actionResponseBuilder.errorMessage;
+        this.metadataMap = actionResponseBuilder.metadataMap;
         this.responseFlag = actionResponseBuilder.responseFlag;
         this.storageObject = actionResponseBuilder.storageObject;
     }
@@ -40,6 +43,10 @@ public class ActionResponse {
         return errorMessage;
     }
 
+    public Optional<Map<String, String>> getMetadataMap() {
+        return metadataMap;
+    }
+
     public Optional<Boolean> getResponseFlag() {
         return responseFlag;
     }
@@ -52,6 +59,7 @@ public class ActionResponse {
         private ActionResponseCode responseCode;
         private Optional<String> responseMessage = Optional.empty();
         private Optional<String> errorMessage = Optional.empty();
+        private Optional<Map<String, String>> metadataMap = Optional.empty();
         private Optional<Boolean> responseFlag = Optional.empty();
         private Optional<S3StorageObject> storageObject = Optional.empty();
 
@@ -66,6 +74,18 @@ public class ActionResponse {
 
         public ActionResponseBuilder withErrorMessage(String errorMessage) {
             this.errorMessage = Optional.of(String.format(ERR_MSG, errorMessage));
+            return this;
+        }
+
+        public ActionResponseBuilder withMetadataValue(String key, String value) {
+            this.metadataMap = Optional.of(Map.ofEntries(
+                    Map.entry(key, value)
+            ));
+            return this;
+        }
+
+        public ActionResponseBuilder withMetadataMap(Map<String, String> metadataMap) {
+            this.metadataMap = Optional.of(metadataMap);
             return this;
         }
 
