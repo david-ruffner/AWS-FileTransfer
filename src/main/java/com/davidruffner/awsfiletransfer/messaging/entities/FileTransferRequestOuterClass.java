@@ -18,49 +18,167 @@ public final class FileTransferRequestOuterClass {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string fileName = 1;</code>
-     * @return Whether the fileName field is set.
+     * <code>required string keyName = 1;</code>
+     * @return Whether the keyName field is set.
      */
-    boolean hasFileName();
+    boolean hasKeyName();
     /**
-     * <code>required string fileName = 1;</code>
-     * @return The fileName.
+     * <code>required string keyName = 1;</code>
+     * @return The keyName.
      */
-    java.lang.String getFileName();
+    java.lang.String getKeyName();
     /**
-     * <code>required string fileName = 1;</code>
-     * @return The bytes for fileName.
+     * <code>required string keyName = 1;</code>
+     * @return The bytes for keyName.
      */
     com.google.protobuf.ByteString
-        getFileNameBytes();
+        getKeyNameBytes();
 
     /**
-     * <code>required bytes data = 2;</code>
+     * <code>required string containerName = 2;</code>
+     * @return Whether the containerName field is set.
+     */
+    boolean hasContainerName();
+    /**
+     * <code>required string containerName = 2;</code>
+     * @return The containerName.
+     */
+    java.lang.String getContainerName();
+    /**
+     * <code>required string containerName = 2;</code>
+     * @return The bytes for containerName.
+     */
+    com.google.protobuf.ByteString
+        getContainerNameBytes();
+
+    /**
+     * <code>required .FileTransferRequest.CONTROLLER_NAME controllerName = 3;</code>
+     * @return Whether the controllerName field is set.
+     */
+    boolean hasControllerName();
+    /**
+     * <code>required .FileTransferRequest.CONTROLLER_NAME controllerName = 3;</code>
+     * @return The controllerName.
+     */
+    FileTransferRequestOuterClass.FileTransferRequest.CONTROLLER_NAME getControllerName();
+
+    /**
+     * <code>required .FileTransferRequest.ACTION_TYPE actionType = 4;</code>
+     * @return Whether the actionType field is set.
+     */
+    boolean hasActionType();
+    /**
+     * <code>required .FileTransferRequest.ACTION_TYPE actionType = 4;</code>
+     * @return The actionType.
+     */
+    FileTransferRequestOuterClass.FileTransferRequest.ACTION_TYPE getActionType();
+
+    /**
+     * <code>optional .FileTransferRequest.METADATA_ACTION_TYPE metaDataActionType = 10;</code>
+     * @return Whether the metaDataActionType field is set.
+     */
+    boolean hasMetaDataActionType();
+    /**
+     * <code>optional .FileTransferRequest.METADATA_ACTION_TYPE metaDataActionType = 10;</code>
+     * @return The metaDataActionType.
+     */
+    FileTransferRequestOuterClass.FileTransferRequest.METADATA_ACTION_TYPE getMetaDataActionType();
+
+    /**
+     * <code>optional string newContainerName = 15;</code>
+     * @return Whether the newContainerName field is set.
+     */
+    boolean hasNewContainerName();
+    /**
+     * <code>optional string newContainerName = 15;</code>
+     * @return The newContainerName.
+     */
+    java.lang.String getNewContainerName();
+    /**
+     * <code>optional string newContainerName = 15;</code>
+     * @return The bytes for newContainerName.
+     */
+    com.google.protobuf.ByteString
+        getNewContainerNameBytes();
+
+    /**
+     * <code>optional string newKeyName = 20;</code>
+     * @return Whether the newKeyName field is set.
+     */
+    boolean hasNewKeyName();
+    /**
+     * <code>optional string newKeyName = 20;</code>
+     * @return The newKeyName.
+     */
+    java.lang.String getNewKeyName();
+    /**
+     * <code>optional string newKeyName = 20;</code>
+     * @return The bytes for newKeyName.
+     */
+    com.google.protobuf.ByteString
+        getNewKeyNameBytes();
+
+    /**
+     * <code>optional string metaDataKey = 25;</code>
+     * @return Whether the metaDataKey field is set.
+     */
+    boolean hasMetaDataKey();
+    /**
+     * <code>optional string metaDataKey = 25;</code>
+     * @return The metaDataKey.
+     */
+    java.lang.String getMetaDataKey();
+    /**
+     * <code>optional string metaDataKey = 25;</code>
+     * @return The bytes for metaDataKey.
+     */
+    com.google.protobuf.ByteString
+        getMetaDataKeyBytes();
+
+    /**
+     * <code>optional string newMetaDataValue = 30;</code>
+     * @return Whether the newMetaDataValue field is set.
+     */
+    boolean hasNewMetaDataValue();
+    /**
+     * <code>optional string newMetaDataValue = 30;</code>
+     * @return The newMetaDataValue.
+     */
+    java.lang.String getNewMetaDataValue();
+    /**
+     * <code>optional string newMetaDataValue = 30;</code>
+     * @return The bytes for newMetaDataValue.
+     */
+    com.google.protobuf.ByteString
+        getNewMetaDataValueBytes();
+
+    /**
+     * <code>optional string metadataMap = 35;</code>
+     * @return Whether the metadataMap field is set.
+     */
+    boolean hasMetadataMap();
+    /**
+     * <code>optional string metadataMap = 35;</code>
+     * @return The metadataMap.
+     */
+    java.lang.String getMetadataMap();
+    /**
+     * <code>optional string metadataMap = 35;</code>
+     * @return The bytes for metadataMap.
+     */
+    com.google.protobuf.ByteString
+        getMetadataMapBytes();
+
+    /**
+     * <code>optional bytes data = 99;</code>
      * @return Whether the data field is set.
      */
     boolean hasData();
     /**
-     * <code>required bytes data = 2;</code>
+     * <code>optional bytes data = 99;</code>
      * @return The data.
      */
     com.google.protobuf.ByteString getData();
-
-    /**
-     * <code>optional string bucketName = 3;</code>
-     * @return Whether the bucketName field is set.
-     */
-    boolean hasBucketName();
-    /**
-     * <code>optional string bucketName = 3;</code>
-     * @return The bucketName.
-     */
-    java.lang.String getBucketName();
-    /**
-     * <code>optional string bucketName = 3;</code>
-     * @return The bytes for bucketName.
-     */
-    com.google.protobuf.ByteString
-        getBucketNameBytes();
   }
   /**
    * Protobuf type {@code FileTransferRequest}
@@ -75,9 +193,17 @@ public final class FileTransferRequestOuterClass {
       super(builder);
     }
     private FileTransferRequest() {
-      fileName_ = "";
+      keyName_ = "";
+      containerName_ = "";
+      controllerName_ = 0;
+      actionType_ = 0;
+      metaDataActionType_ = 0;
+      newContainerName_ = "";
+      newKeyName_ = "";
+      metaDataKey_ = "";
+      newMetaDataValue_ = "";
+      metadataMap_ = "";
       data_ = com.google.protobuf.ByteString.EMPTY;
-      bucketName_ = "";
     }
 
     @java.lang.Override
@@ -100,25 +226,385 @@ public final class FileTransferRequestOuterClass {
               FileTransferRequestOuterClass.FileTransferRequest.class, FileTransferRequestOuterClass.FileTransferRequest.Builder.class);
     }
 
-    private int bitField0_;
-    public static final int FILENAME_FIELD_NUMBER = 1;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object fileName_ = "";
     /**
-     * <code>required string fileName = 1;</code>
-     * @return Whether the fileName field is set.
+     * Protobuf enum {@code FileTransferRequest.CONTROLLER_NAME}
+     */
+    public enum CONTROLLER_NAME
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>S3 = 0;</code>
+       */
+      S3(0),
+      ;
+
+      /**
+       * <code>S3 = 0;</code>
+       */
+      public static final int S3_VALUE = 0;
+
+
+      public final int getNumber() {
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static CONTROLLER_NAME valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static CONTROLLER_NAME forNumber(int value) {
+        switch (value) {
+          case 0: return S3;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<CONTROLLER_NAME>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          CONTROLLER_NAME> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<CONTROLLER_NAME>() {
+              public CONTROLLER_NAME findValueByNumber(int number) {
+                return CONTROLLER_NAME.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return FileTransferRequestOuterClass.FileTransferRequest.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final CONTROLLER_NAME[] VALUES = values();
+
+      public static CONTROLLER_NAME valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private CONTROLLER_NAME(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:FileTransferRequest.CONTROLLER_NAME)
+    }
+
+    /**
+     * Protobuf enum {@code FileTransferRequest.ACTION_TYPE}
+     */
+    public enum ACTION_TYPE
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>UPLOAD = 0;</code>
+       */
+      UPLOAD(0),
+      /**
+       * <code>GET = 1;</code>
+       */
+      GET(1),
+      /**
+       * <code>MOVE = 2;</code>
+       */
+      MOVE(2),
+      /**
+       * <code>OBJECT_EXISTS = 3;</code>
+       */
+      OBJECT_EXISTS(3),
+      /**
+       * <code>OBJECT_METADATA = 4;</code>
+       */
+      OBJECT_METADATA(4),
+      /**
+       * <code>RENAME = 5;</code>
+       */
+      RENAME(5),
+      /**
+       * <code>DELETE = 6;</code>
+       */
+      DELETE(6),
+      ;
+
+      /**
+       * <code>UPLOAD = 0;</code>
+       */
+      public static final int UPLOAD_VALUE = 0;
+      /**
+       * <code>GET = 1;</code>
+       */
+      public static final int GET_VALUE = 1;
+      /**
+       * <code>MOVE = 2;</code>
+       */
+      public static final int MOVE_VALUE = 2;
+      /**
+       * <code>OBJECT_EXISTS = 3;</code>
+       */
+      public static final int OBJECT_EXISTS_VALUE = 3;
+      /**
+       * <code>OBJECT_METADATA = 4;</code>
+       */
+      public static final int OBJECT_METADATA_VALUE = 4;
+      /**
+       * <code>RENAME = 5;</code>
+       */
+      public static final int RENAME_VALUE = 5;
+      /**
+       * <code>DELETE = 6;</code>
+       */
+      public static final int DELETE_VALUE = 6;
+
+
+      public final int getNumber() {
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static ACTION_TYPE valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static ACTION_TYPE forNumber(int value) {
+        switch (value) {
+          case 0: return UPLOAD;
+          case 1: return GET;
+          case 2: return MOVE;
+          case 3: return OBJECT_EXISTS;
+          case 4: return OBJECT_METADATA;
+          case 5: return RENAME;
+          case 6: return DELETE;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<ACTION_TYPE>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          ACTION_TYPE> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<ACTION_TYPE>() {
+              public ACTION_TYPE findValueByNumber(int number) {
+                return ACTION_TYPE.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return FileTransferRequestOuterClass.FileTransferRequest.getDescriptor().getEnumTypes().get(1);
+      }
+
+      private static final ACTION_TYPE[] VALUES = values();
+
+      public static ACTION_TYPE valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private ACTION_TYPE(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:FileTransferRequest.ACTION_TYPE)
+    }
+
+    /**
+     * Protobuf enum {@code FileTransferRequest.METADATA_ACTION_TYPE}
+     */
+    public enum METADATA_ACTION_TYPE
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>ADD_METADATA = 0;</code>
+       */
+      ADD_METADATA(0),
+      /**
+       * <code>UPDATE_METADATA = 1;</code>
+       */
+      UPDATE_METADATA(1),
+      /**
+       * <code>DELETE_METADATA = 2;</code>
+       */
+      DELETE_METADATA(2),
+      /**
+       * <code>DELETE_ALL_METADATA = 3;</code>
+       */
+      DELETE_ALL_METADATA(3),
+      /**
+       * <code>GET_METADATA = 4;</code>
+       */
+      GET_METADATA(4),
+      /**
+       * <code>GET_ALL_METADATA = 5;</code>
+       */
+      GET_ALL_METADATA(5),
+      ;
+
+      /**
+       * <code>ADD_METADATA = 0;</code>
+       */
+      public static final int ADD_METADATA_VALUE = 0;
+      /**
+       * <code>UPDATE_METADATA = 1;</code>
+       */
+      public static final int UPDATE_METADATA_VALUE = 1;
+      /**
+       * <code>DELETE_METADATA = 2;</code>
+       */
+      public static final int DELETE_METADATA_VALUE = 2;
+      /**
+       * <code>DELETE_ALL_METADATA = 3;</code>
+       */
+      public static final int DELETE_ALL_METADATA_VALUE = 3;
+      /**
+       * <code>GET_METADATA = 4;</code>
+       */
+      public static final int GET_METADATA_VALUE = 4;
+      /**
+       * <code>GET_ALL_METADATA = 5;</code>
+       */
+      public static final int GET_ALL_METADATA_VALUE = 5;
+
+
+      public final int getNumber() {
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static METADATA_ACTION_TYPE valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static METADATA_ACTION_TYPE forNumber(int value) {
+        switch (value) {
+          case 0: return ADD_METADATA;
+          case 1: return UPDATE_METADATA;
+          case 2: return DELETE_METADATA;
+          case 3: return DELETE_ALL_METADATA;
+          case 4: return GET_METADATA;
+          case 5: return GET_ALL_METADATA;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<METADATA_ACTION_TYPE>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          METADATA_ACTION_TYPE> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<METADATA_ACTION_TYPE>() {
+              public METADATA_ACTION_TYPE findValueByNumber(int number) {
+                return METADATA_ACTION_TYPE.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return FileTransferRequestOuterClass.FileTransferRequest.getDescriptor().getEnumTypes().get(2);
+      }
+
+      private static final METADATA_ACTION_TYPE[] VALUES = values();
+
+      public static METADATA_ACTION_TYPE valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private METADATA_ACTION_TYPE(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:FileTransferRequest.METADATA_ACTION_TYPE)
+    }
+
+    private int bitField0_;
+    public static final int KEYNAME_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object keyName_ = "";
+    /**
+     * <code>required string keyName = 1;</code>
+     * @return Whether the keyName field is set.
      */
     @java.lang.Override
-    public boolean hasFileName() {
+    public boolean hasKeyName() {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>required string fileName = 1;</code>
-     * @return The fileName.
+     * <code>required string keyName = 1;</code>
+     * @return The keyName.
      */
     @java.lang.Override
-    public java.lang.String getFileName() {
-      java.lang.Object ref = fileName_;
+    public java.lang.String getKeyName() {
+      java.lang.Object ref = keyName_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -126,96 +612,395 @@ public final class FileTransferRequestOuterClass {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          fileName_ = s;
+          keyName_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>required string fileName = 1;</code>
-     * @return The bytes for fileName.
+     * <code>required string keyName = 1;</code>
+     * @return The bytes for keyName.
      */
     @java.lang.Override
     public com.google.protobuf.ByteString
-        getFileNameBytes() {
-      java.lang.Object ref = fileName_;
+        getKeyNameBytes() {
+      java.lang.Object ref = keyName_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        fileName_ = b;
+        keyName_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    public static final int DATA_FIELD_NUMBER = 2;
+    public static final int CONTAINERNAME_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object containerName_ = "";
+    /**
+     * <code>required string containerName = 2;</code>
+     * @return Whether the containerName field is set.
+     */
+    @java.lang.Override
+    public boolean hasContainerName() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>required string containerName = 2;</code>
+     * @return The containerName.
+     */
+    @java.lang.Override
+    public java.lang.String getContainerName() {
+      java.lang.Object ref = containerName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          containerName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string containerName = 2;</code>
+     * @return The bytes for containerName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getContainerNameBytes() {
+      java.lang.Object ref = containerName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        containerName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CONTROLLERNAME_FIELD_NUMBER = 3;
+    private int controllerName_ = 0;
+    /**
+     * <code>required .FileTransferRequest.CONTROLLER_NAME controllerName = 3;</code>
+     * @return Whether the controllerName field is set.
+     */
+    @java.lang.Override public boolean hasControllerName() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>required .FileTransferRequest.CONTROLLER_NAME controllerName = 3;</code>
+     * @return The controllerName.
+     */
+    @java.lang.Override public FileTransferRequestOuterClass.FileTransferRequest.CONTROLLER_NAME getControllerName() {
+      FileTransferRequestOuterClass.FileTransferRequest.CONTROLLER_NAME result = FileTransferRequestOuterClass.FileTransferRequest.CONTROLLER_NAME.forNumber(controllerName_);
+      return result == null ? FileTransferRequestOuterClass.FileTransferRequest.CONTROLLER_NAME.S3 : result;
+    }
+
+    public static final int ACTIONTYPE_FIELD_NUMBER = 4;
+    private int actionType_ = 0;
+    /**
+     * <code>required .FileTransferRequest.ACTION_TYPE actionType = 4;</code>
+     * @return Whether the actionType field is set.
+     */
+    @java.lang.Override public boolean hasActionType() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <code>required .FileTransferRequest.ACTION_TYPE actionType = 4;</code>
+     * @return The actionType.
+     */
+    @java.lang.Override public FileTransferRequestOuterClass.FileTransferRequest.ACTION_TYPE getActionType() {
+      FileTransferRequestOuterClass.FileTransferRequest.ACTION_TYPE result = FileTransferRequestOuterClass.FileTransferRequest.ACTION_TYPE.forNumber(actionType_);
+      return result == null ? FileTransferRequestOuterClass.FileTransferRequest.ACTION_TYPE.UPLOAD : result;
+    }
+
+    public static final int METADATAACTIONTYPE_FIELD_NUMBER = 10;
+    private int metaDataActionType_ = 0;
+    /**
+     * <code>optional .FileTransferRequest.METADATA_ACTION_TYPE metaDataActionType = 10;</code>
+     * @return Whether the metaDataActionType field is set.
+     */
+    @java.lang.Override public boolean hasMetaDataActionType() {
+      return ((bitField0_ & 0x00000010) != 0);
+    }
+    /**
+     * <code>optional .FileTransferRequest.METADATA_ACTION_TYPE metaDataActionType = 10;</code>
+     * @return The metaDataActionType.
+     */
+    @java.lang.Override public FileTransferRequestOuterClass.FileTransferRequest.METADATA_ACTION_TYPE getMetaDataActionType() {
+      FileTransferRequestOuterClass.FileTransferRequest.METADATA_ACTION_TYPE result = FileTransferRequestOuterClass.FileTransferRequest.METADATA_ACTION_TYPE.forNumber(metaDataActionType_);
+      return result == null ? FileTransferRequestOuterClass.FileTransferRequest.METADATA_ACTION_TYPE.ADD_METADATA : result;
+    }
+
+    public static final int NEWCONTAINERNAME_FIELD_NUMBER = 15;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object newContainerName_ = "";
+    /**
+     * <code>optional string newContainerName = 15;</code>
+     * @return Whether the newContainerName field is set.
+     */
+    @java.lang.Override
+    public boolean hasNewContainerName() {
+      return ((bitField0_ & 0x00000020) != 0);
+    }
+    /**
+     * <code>optional string newContainerName = 15;</code>
+     * @return The newContainerName.
+     */
+    @java.lang.Override
+    public java.lang.String getNewContainerName() {
+      java.lang.Object ref = newContainerName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          newContainerName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string newContainerName = 15;</code>
+     * @return The bytes for newContainerName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getNewContainerNameBytes() {
+      java.lang.Object ref = newContainerName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        newContainerName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int NEWKEYNAME_FIELD_NUMBER = 20;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object newKeyName_ = "";
+    /**
+     * <code>optional string newKeyName = 20;</code>
+     * @return Whether the newKeyName field is set.
+     */
+    @java.lang.Override
+    public boolean hasNewKeyName() {
+      return ((bitField0_ & 0x00000040) != 0);
+    }
+    /**
+     * <code>optional string newKeyName = 20;</code>
+     * @return The newKeyName.
+     */
+    @java.lang.Override
+    public java.lang.String getNewKeyName() {
+      java.lang.Object ref = newKeyName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          newKeyName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string newKeyName = 20;</code>
+     * @return The bytes for newKeyName.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getNewKeyNameBytes() {
+      java.lang.Object ref = newKeyName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        newKeyName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int METADATAKEY_FIELD_NUMBER = 25;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object metaDataKey_ = "";
+    /**
+     * <code>optional string metaDataKey = 25;</code>
+     * @return Whether the metaDataKey field is set.
+     */
+    @java.lang.Override
+    public boolean hasMetaDataKey() {
+      return ((bitField0_ & 0x00000080) != 0);
+    }
+    /**
+     * <code>optional string metaDataKey = 25;</code>
+     * @return The metaDataKey.
+     */
+    @java.lang.Override
+    public java.lang.String getMetaDataKey() {
+      java.lang.Object ref = metaDataKey_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          metaDataKey_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string metaDataKey = 25;</code>
+     * @return The bytes for metaDataKey.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getMetaDataKeyBytes() {
+      java.lang.Object ref = metaDataKey_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        metaDataKey_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int NEWMETADATAVALUE_FIELD_NUMBER = 30;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object newMetaDataValue_ = "";
+    /**
+     * <code>optional string newMetaDataValue = 30;</code>
+     * @return Whether the newMetaDataValue field is set.
+     */
+    @java.lang.Override
+    public boolean hasNewMetaDataValue() {
+      return ((bitField0_ & 0x00000100) != 0);
+    }
+    /**
+     * <code>optional string newMetaDataValue = 30;</code>
+     * @return The newMetaDataValue.
+     */
+    @java.lang.Override
+    public java.lang.String getNewMetaDataValue() {
+      java.lang.Object ref = newMetaDataValue_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          newMetaDataValue_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string newMetaDataValue = 30;</code>
+     * @return The bytes for newMetaDataValue.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getNewMetaDataValueBytes() {
+      java.lang.Object ref = newMetaDataValue_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        newMetaDataValue_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int METADATAMAP_FIELD_NUMBER = 35;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object metadataMap_ = "";
+    /**
+     * <code>optional string metadataMap = 35;</code>
+     * @return Whether the metadataMap field is set.
+     */
+    @java.lang.Override
+    public boolean hasMetadataMap() {
+      return ((bitField0_ & 0x00000200) != 0);
+    }
+    /**
+     * <code>optional string metadataMap = 35;</code>
+     * @return The metadataMap.
+     */
+    @java.lang.Override
+    public java.lang.String getMetadataMap() {
+      java.lang.Object ref = metadataMap_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          metadataMap_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string metadataMap = 35;</code>
+     * @return The bytes for metadataMap.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getMetadataMapBytes() {
+      java.lang.Object ref = metadataMap_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        metadataMap_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DATA_FIELD_NUMBER = 99;
     private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
     /**
-     * <code>required bytes data = 2;</code>
+     * <code>optional bytes data = 99;</code>
      * @return Whether the data field is set.
      */
     @java.lang.Override
     public boolean hasData() {
-      return ((bitField0_ & 0x00000002) != 0);
+      return ((bitField0_ & 0x00000400) != 0);
     }
     /**
-     * <code>required bytes data = 2;</code>
+     * <code>optional bytes data = 99;</code>
      * @return The data.
      */
     @java.lang.Override
     public com.google.protobuf.ByteString getData() {
       return data_;
-    }
-
-    public static final int BUCKETNAME_FIELD_NUMBER = 3;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object bucketName_ = "";
-    /**
-     * <code>optional string bucketName = 3;</code>
-     * @return Whether the bucketName field is set.
-     */
-    @java.lang.Override
-    public boolean hasBucketName() {
-      return ((bitField0_ & 0x00000004) != 0);
-    }
-    /**
-     * <code>optional string bucketName = 3;</code>
-     * @return The bucketName.
-     */
-    @java.lang.Override
-    public java.lang.String getBucketName() {
-      java.lang.Object ref = bucketName_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          bucketName_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string bucketName = 3;</code>
-     * @return The bytes for bucketName.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getBucketNameBytes() {
-      java.lang.Object ref = bucketName_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        bucketName_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -225,11 +1010,19 @@ public final class FileTransferRequestOuterClass {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasFileName()) {
+      if (!hasKeyName()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasData()) {
+      if (!hasContainerName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasControllerName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasActionType()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -241,13 +1034,37 @@ public final class FileTransferRequestOuterClass {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, fileName_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, keyName_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
-        output.writeBytes(2, data_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, containerName_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, bucketName_);
+        output.writeEnum(3, controllerName_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        output.writeEnum(4, actionType_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        output.writeEnum(10, metaDataActionType_);
+      }
+      if (((bitField0_ & 0x00000020) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 15, newContainerName_);
+      }
+      if (((bitField0_ & 0x00000040) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 20, newKeyName_);
+      }
+      if (((bitField0_ & 0x00000080) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 25, metaDataKey_);
+      }
+      if (((bitField0_ & 0x00000100) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 30, newMetaDataValue_);
+      }
+      if (((bitField0_ & 0x00000200) != 0)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 35, metadataMap_);
+      }
+      if (((bitField0_ & 0x00000400) != 0)) {
+        output.writeBytes(99, data_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -259,14 +1076,41 @@ public final class FileTransferRequestOuterClass {
 
       size = 0;
       if (((bitField0_ & 0x00000001) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, fileName_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, keyName_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, data_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, containerName_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, bucketName_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, controllerName_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(4, actionType_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(10, metaDataActionType_);
+      }
+      if (((bitField0_ & 0x00000020) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(15, newContainerName_);
+      }
+      if (((bitField0_ & 0x00000040) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(20, newKeyName_);
+      }
+      if (((bitField0_ & 0x00000080) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(25, metaDataKey_);
+      }
+      if (((bitField0_ & 0x00000100) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(30, newMetaDataValue_);
+      }
+      if (((bitField0_ & 0x00000200) != 0)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(35, metadataMap_);
+      }
+      if (((bitField0_ & 0x00000400) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(99, data_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -283,20 +1127,57 @@ public final class FileTransferRequestOuterClass {
       }
       FileTransferRequestOuterClass.FileTransferRequest other = (FileTransferRequestOuterClass.FileTransferRequest) obj;
 
-      if (hasFileName() != other.hasFileName()) return false;
-      if (hasFileName()) {
-        if (!getFileName()
-            .equals(other.getFileName())) return false;
+      if (hasKeyName() != other.hasKeyName()) return false;
+      if (hasKeyName()) {
+        if (!getKeyName()
+            .equals(other.getKeyName())) return false;
+      }
+      if (hasContainerName() != other.hasContainerName()) return false;
+      if (hasContainerName()) {
+        if (!getContainerName()
+            .equals(other.getContainerName())) return false;
+      }
+      if (hasControllerName() != other.hasControllerName()) return false;
+      if (hasControllerName()) {
+        if (controllerName_ != other.controllerName_) return false;
+      }
+      if (hasActionType() != other.hasActionType()) return false;
+      if (hasActionType()) {
+        if (actionType_ != other.actionType_) return false;
+      }
+      if (hasMetaDataActionType() != other.hasMetaDataActionType()) return false;
+      if (hasMetaDataActionType()) {
+        if (metaDataActionType_ != other.metaDataActionType_) return false;
+      }
+      if (hasNewContainerName() != other.hasNewContainerName()) return false;
+      if (hasNewContainerName()) {
+        if (!getNewContainerName()
+            .equals(other.getNewContainerName())) return false;
+      }
+      if (hasNewKeyName() != other.hasNewKeyName()) return false;
+      if (hasNewKeyName()) {
+        if (!getNewKeyName()
+            .equals(other.getNewKeyName())) return false;
+      }
+      if (hasMetaDataKey() != other.hasMetaDataKey()) return false;
+      if (hasMetaDataKey()) {
+        if (!getMetaDataKey()
+            .equals(other.getMetaDataKey())) return false;
+      }
+      if (hasNewMetaDataValue() != other.hasNewMetaDataValue()) return false;
+      if (hasNewMetaDataValue()) {
+        if (!getNewMetaDataValue()
+            .equals(other.getNewMetaDataValue())) return false;
+      }
+      if (hasMetadataMap() != other.hasMetadataMap()) return false;
+      if (hasMetadataMap()) {
+        if (!getMetadataMap()
+            .equals(other.getMetadataMap())) return false;
       }
       if (hasData() != other.hasData()) return false;
       if (hasData()) {
         if (!getData()
             .equals(other.getData())) return false;
-      }
-      if (hasBucketName() != other.hasBucketName()) return false;
-      if (hasBucketName()) {
-        if (!getBucketName()
-            .equals(other.getBucketName())) return false;
       }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -309,17 +1190,49 @@ public final class FileTransferRequestOuterClass {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasFileName()) {
-        hash = (37 * hash) + FILENAME_FIELD_NUMBER;
-        hash = (53 * hash) + getFileName().hashCode();
+      if (hasKeyName()) {
+        hash = (37 * hash) + KEYNAME_FIELD_NUMBER;
+        hash = (53 * hash) + getKeyName().hashCode();
+      }
+      if (hasContainerName()) {
+        hash = (37 * hash) + CONTAINERNAME_FIELD_NUMBER;
+        hash = (53 * hash) + getContainerName().hashCode();
+      }
+      if (hasControllerName()) {
+        hash = (37 * hash) + CONTROLLERNAME_FIELD_NUMBER;
+        hash = (53 * hash) + controllerName_;
+      }
+      if (hasActionType()) {
+        hash = (37 * hash) + ACTIONTYPE_FIELD_NUMBER;
+        hash = (53 * hash) + actionType_;
+      }
+      if (hasMetaDataActionType()) {
+        hash = (37 * hash) + METADATAACTIONTYPE_FIELD_NUMBER;
+        hash = (53 * hash) + metaDataActionType_;
+      }
+      if (hasNewContainerName()) {
+        hash = (37 * hash) + NEWCONTAINERNAME_FIELD_NUMBER;
+        hash = (53 * hash) + getNewContainerName().hashCode();
+      }
+      if (hasNewKeyName()) {
+        hash = (37 * hash) + NEWKEYNAME_FIELD_NUMBER;
+        hash = (53 * hash) + getNewKeyName().hashCode();
+      }
+      if (hasMetaDataKey()) {
+        hash = (37 * hash) + METADATAKEY_FIELD_NUMBER;
+        hash = (53 * hash) + getMetaDataKey().hashCode();
+      }
+      if (hasNewMetaDataValue()) {
+        hash = (37 * hash) + NEWMETADATAVALUE_FIELD_NUMBER;
+        hash = (53 * hash) + getNewMetaDataValue().hashCode();
+      }
+      if (hasMetadataMap()) {
+        hash = (37 * hash) + METADATAMAP_FIELD_NUMBER;
+        hash = (53 * hash) + getMetadataMap().hashCode();
       }
       if (hasData()) {
         hash = (37 * hash) + DATA_FIELD_NUMBER;
         hash = (53 * hash) + getData().hashCode();
-      }
-      if (hasBucketName()) {
-        hash = (37 * hash) + BUCKETNAME_FIELD_NUMBER;
-        hash = (53 * hash) + getBucketName().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -452,9 +1365,17 @@ public final class FileTransferRequestOuterClass {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        fileName_ = "";
+        keyName_ = "";
+        containerName_ = "";
+        controllerName_ = 0;
+        actionType_ = 0;
+        metaDataActionType_ = 0;
+        newContainerName_ = "";
+        newKeyName_ = "";
+        metaDataKey_ = "";
+        newMetaDataValue_ = "";
+        metadataMap_ = "";
         data_ = com.google.protobuf.ByteString.EMPTY;
-        bucketName_ = "";
         return this;
       }
 
@@ -490,16 +1411,48 @@ public final class FileTransferRequestOuterClass {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.fileName_ = fileName_;
+          result.keyName_ = keyName_;
           to_bitField0_ |= 0x00000001;
         }
         if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.data_ = data_;
+          result.containerName_ = containerName_;
           to_bitField0_ |= 0x00000002;
         }
         if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.bucketName_ = bucketName_;
+          result.controllerName_ = controllerName_;
           to_bitField0_ |= 0x00000004;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.actionType_ = actionType_;
+          to_bitField0_ |= 0x00000008;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.metaDataActionType_ = metaDataActionType_;
+          to_bitField0_ |= 0x00000010;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.newContainerName_ = newContainerName_;
+          to_bitField0_ |= 0x00000020;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.newKeyName_ = newKeyName_;
+          to_bitField0_ |= 0x00000040;
+        }
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.metaDataKey_ = metaDataKey_;
+          to_bitField0_ |= 0x00000080;
+        }
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.newMetaDataValue_ = newMetaDataValue_;
+          to_bitField0_ |= 0x00000100;
+        }
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          result.metadataMap_ = metadataMap_;
+          to_bitField0_ |= 0x00000200;
+        }
+        if (((from_bitField0_ & 0x00000400) != 0)) {
+          result.data_ = data_;
+          to_bitField0_ |= 0x00000400;
         }
         result.bitField0_ |= to_bitField0_;
       }
@@ -548,18 +1501,52 @@ public final class FileTransferRequestOuterClass {
 
       public Builder mergeFrom(FileTransferRequestOuterClass.FileTransferRequest other) {
         if (other == FileTransferRequestOuterClass.FileTransferRequest.getDefaultInstance()) return this;
-        if (other.hasFileName()) {
-          fileName_ = other.fileName_;
+        if (other.hasKeyName()) {
+          keyName_ = other.keyName_;
           bitField0_ |= 0x00000001;
+          onChanged();
+        }
+        if (other.hasContainerName()) {
+          containerName_ = other.containerName_;
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        if (other.hasControllerName()) {
+          setControllerName(other.getControllerName());
+        }
+        if (other.hasActionType()) {
+          setActionType(other.getActionType());
+        }
+        if (other.hasMetaDataActionType()) {
+          setMetaDataActionType(other.getMetaDataActionType());
+        }
+        if (other.hasNewContainerName()) {
+          newContainerName_ = other.newContainerName_;
+          bitField0_ |= 0x00000020;
+          onChanged();
+        }
+        if (other.hasNewKeyName()) {
+          newKeyName_ = other.newKeyName_;
+          bitField0_ |= 0x00000040;
+          onChanged();
+        }
+        if (other.hasMetaDataKey()) {
+          metaDataKey_ = other.metaDataKey_;
+          bitField0_ |= 0x00000080;
+          onChanged();
+        }
+        if (other.hasNewMetaDataValue()) {
+          newMetaDataValue_ = other.newMetaDataValue_;
+          bitField0_ |= 0x00000100;
+          onChanged();
+        }
+        if (other.hasMetadataMap()) {
+          metadataMap_ = other.metadataMap_;
+          bitField0_ |= 0x00000200;
           onChanged();
         }
         if (other.hasData()) {
           setData(other.getData());
-        }
-        if (other.hasBucketName()) {
-          bucketName_ = other.bucketName_;
-          bitField0_ |= 0x00000004;
-          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -568,10 +1555,16 @@ public final class FileTransferRequestOuterClass {
 
       @java.lang.Override
       public final boolean isInitialized() {
-        if (!hasFileName()) {
+        if (!hasKeyName()) {
           return false;
         }
-        if (!hasData()) {
+        if (!hasContainerName()) {
+          return false;
+        }
+        if (!hasControllerName()) {
+          return false;
+        }
+        if (!hasActionType()) {
           return false;
         }
         return true;
@@ -594,20 +1587,81 @@ public final class FileTransferRequestOuterClass {
                 done = true;
                 break;
               case 10: {
-                fileName_ = input.readBytes();
+                keyName_ = input.readBytes();
                 bitField0_ |= 0x00000001;
                 break;
               } // case 10
               case 18: {
-                data_ = input.readBytes();
+                containerName_ = input.readBytes();
                 bitField0_ |= 0x00000002;
                 break;
               } // case 18
-              case 26: {
-                bucketName_ = input.readBytes();
-                bitField0_ |= 0x00000004;
+              case 24: {
+                int tmpRaw = input.readEnum();
+                FileTransferRequestOuterClass.FileTransferRequest.CONTROLLER_NAME tmpValue =
+                    FileTransferRequestOuterClass.FileTransferRequest.CONTROLLER_NAME.forNumber(tmpRaw);
+                if (tmpValue == null) {
+                  mergeUnknownVarintField(3, tmpRaw);
+                } else {
+                  controllerName_ = tmpRaw;
+                  bitField0_ |= 0x00000004;
+                }
                 break;
-              } // case 26
+              } // case 24
+              case 32: {
+                int tmpRaw = input.readEnum();
+                FileTransferRequestOuterClass.FileTransferRequest.ACTION_TYPE tmpValue =
+                    FileTransferRequestOuterClass.FileTransferRequest.ACTION_TYPE.forNumber(tmpRaw);
+                if (tmpValue == null) {
+                  mergeUnknownVarintField(4, tmpRaw);
+                } else {
+                  actionType_ = tmpRaw;
+                  bitField0_ |= 0x00000008;
+                }
+                break;
+              } // case 32
+              case 80: {
+                int tmpRaw = input.readEnum();
+                FileTransferRequestOuterClass.FileTransferRequest.METADATA_ACTION_TYPE tmpValue =
+                    FileTransferRequestOuterClass.FileTransferRequest.METADATA_ACTION_TYPE.forNumber(tmpRaw);
+                if (tmpValue == null) {
+                  mergeUnknownVarintField(10, tmpRaw);
+                } else {
+                  metaDataActionType_ = tmpRaw;
+                  bitField0_ |= 0x00000010;
+                }
+                break;
+              } // case 80
+              case 122: {
+                newContainerName_ = input.readBytes();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 122
+              case 162: {
+                newKeyName_ = input.readBytes();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 162
+              case 202: {
+                metaDataKey_ = input.readBytes();
+                bitField0_ |= 0x00000080;
+                break;
+              } // case 202
+              case 242: {
+                newMetaDataValue_ = input.readBytes();
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 242
+              case 282: {
+                metadataMap_ = input.readBytes();
+                bitField0_ |= 0x00000200;
+                break;
+              } // case 282
+              case 794: {
+                data_ = input.readBytes();
+                bitField0_ |= 0x00000400;
+                break;
+              } // case 794
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -625,26 +1679,26 @@ public final class FileTransferRequestOuterClass {
       }
       private int bitField0_;
 
-      private java.lang.Object fileName_ = "";
+      private java.lang.Object keyName_ = "";
       /**
-       * <code>required string fileName = 1;</code>
-       * @return Whether the fileName field is set.
+       * <code>required string keyName = 1;</code>
+       * @return Whether the keyName field is set.
        */
-      public boolean hasFileName() {
+      public boolean hasKeyName() {
         return ((bitField0_ & 0x00000001) != 0);
       }
       /**
-       * <code>required string fileName = 1;</code>
-       * @return The fileName.
+       * <code>required string keyName = 1;</code>
+       * @return The keyName.
        */
-      public java.lang.String getFileName() {
-        java.lang.Object ref = fileName_;
+      public java.lang.String getKeyName() {
+        java.lang.Object ref = keyName_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           if (bs.isValidUtf8()) {
-            fileName_ = s;
+            keyName_ = s;
           }
           return s;
         } else {
@@ -652,70 +1706,676 @@ public final class FileTransferRequestOuterClass {
         }
       }
       /**
-       * <code>required string fileName = 1;</code>
-       * @return The bytes for fileName.
+       * <code>required string keyName = 1;</code>
+       * @return The bytes for keyName.
        */
       public com.google.protobuf.ByteString
-          getFileNameBytes() {
-        java.lang.Object ref = fileName_;
+          getKeyNameBytes() {
+        java.lang.Object ref = keyName_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          fileName_ = b;
+          keyName_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>required string fileName = 1;</code>
-       * @param value The fileName to set.
+       * <code>required string keyName = 1;</code>
+       * @param value The keyName to set.
        * @return This builder for chaining.
        */
-      public Builder setFileName(
+      public Builder setKeyName(
           java.lang.String value) {
         if (value == null) { throw new NullPointerException(); }
-        fileName_ = value;
+        keyName_ = value;
         bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
-       * <code>required string fileName = 1;</code>
+       * <code>required string keyName = 1;</code>
        * @return This builder for chaining.
        */
-      public Builder clearFileName() {
-        fileName_ = getDefaultInstance().getFileName();
+      public Builder clearKeyName() {
+        keyName_ = getDefaultInstance().getKeyName();
         bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
-       * <code>required string fileName = 1;</code>
-       * @param value The bytes for fileName to set.
+       * <code>required string keyName = 1;</code>
+       * @param value The bytes for keyName to set.
        * @return This builder for chaining.
        */
-      public Builder setFileNameBytes(
+      public Builder setKeyNameBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) { throw new NullPointerException(); }
-        fileName_ = value;
+        keyName_ = value;
         bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object containerName_ = "";
+      /**
+       * <code>required string containerName = 2;</code>
+       * @return Whether the containerName field is set.
+       */
+      public boolean hasContainerName() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>required string containerName = 2;</code>
+       * @return The containerName.
+       */
+      public java.lang.String getContainerName() {
+        java.lang.Object ref = containerName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            containerName_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string containerName = 2;</code>
+       * @return The bytes for containerName.
+       */
+      public com.google.protobuf.ByteString
+          getContainerNameBytes() {
+        java.lang.Object ref = containerName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          containerName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string containerName = 2;</code>
+       * @param value The containerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setContainerName(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        containerName_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string containerName = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearContainerName() {
+        containerName_ = getDefaultInstance().getContainerName();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string containerName = 2;</code>
+       * @param value The bytes for containerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setContainerNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        containerName_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+
+      private int controllerName_ = 0;
+      /**
+       * <code>required .FileTransferRequest.CONTROLLER_NAME controllerName = 3;</code>
+       * @return Whether the controllerName field is set.
+       */
+      @java.lang.Override public boolean hasControllerName() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <code>required .FileTransferRequest.CONTROLLER_NAME controllerName = 3;</code>
+       * @return The controllerName.
+       */
+      @java.lang.Override
+      public FileTransferRequestOuterClass.FileTransferRequest.CONTROLLER_NAME getControllerName() {
+        FileTransferRequestOuterClass.FileTransferRequest.CONTROLLER_NAME result = FileTransferRequestOuterClass.FileTransferRequest.CONTROLLER_NAME.forNumber(controllerName_);
+        return result == null ? FileTransferRequestOuterClass.FileTransferRequest.CONTROLLER_NAME.S3 : result;
+      }
+      /**
+       * <code>required .FileTransferRequest.CONTROLLER_NAME controllerName = 3;</code>
+       * @param value The controllerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setControllerName(FileTransferRequestOuterClass.FileTransferRequest.CONTROLLER_NAME value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000004;
+        controllerName_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .FileTransferRequest.CONTROLLER_NAME controllerName = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearControllerName() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        controllerName_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int actionType_ = 0;
+      /**
+       * <code>required .FileTransferRequest.ACTION_TYPE actionType = 4;</code>
+       * @return Whether the actionType field is set.
+       */
+      @java.lang.Override public boolean hasActionType() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <code>required .FileTransferRequest.ACTION_TYPE actionType = 4;</code>
+       * @return The actionType.
+       */
+      @java.lang.Override
+      public FileTransferRequestOuterClass.FileTransferRequest.ACTION_TYPE getActionType() {
+        FileTransferRequestOuterClass.FileTransferRequest.ACTION_TYPE result = FileTransferRequestOuterClass.FileTransferRequest.ACTION_TYPE.forNumber(actionType_);
+        return result == null ? FileTransferRequestOuterClass.FileTransferRequest.ACTION_TYPE.UPLOAD : result;
+      }
+      /**
+       * <code>required .FileTransferRequest.ACTION_TYPE actionType = 4;</code>
+       * @param value The actionType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setActionType(FileTransferRequestOuterClass.FileTransferRequest.ACTION_TYPE value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000008;
+        actionType_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .FileTransferRequest.ACTION_TYPE actionType = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearActionType() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        actionType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int metaDataActionType_ = 0;
+      /**
+       * <code>optional .FileTransferRequest.METADATA_ACTION_TYPE metaDataActionType = 10;</code>
+       * @return Whether the metaDataActionType field is set.
+       */
+      @java.lang.Override public boolean hasMetaDataActionType() {
+        return ((bitField0_ & 0x00000010) != 0);
+      }
+      /**
+       * <code>optional .FileTransferRequest.METADATA_ACTION_TYPE metaDataActionType = 10;</code>
+       * @return The metaDataActionType.
+       */
+      @java.lang.Override
+      public FileTransferRequestOuterClass.FileTransferRequest.METADATA_ACTION_TYPE getMetaDataActionType() {
+        FileTransferRequestOuterClass.FileTransferRequest.METADATA_ACTION_TYPE result = FileTransferRequestOuterClass.FileTransferRequest.METADATA_ACTION_TYPE.forNumber(metaDataActionType_);
+        return result == null ? FileTransferRequestOuterClass.FileTransferRequest.METADATA_ACTION_TYPE.ADD_METADATA : result;
+      }
+      /**
+       * <code>optional .FileTransferRequest.METADATA_ACTION_TYPE metaDataActionType = 10;</code>
+       * @param value The metaDataActionType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMetaDataActionType(FileTransferRequestOuterClass.FileTransferRequest.METADATA_ACTION_TYPE value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000010;
+        metaDataActionType_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .FileTransferRequest.METADATA_ACTION_TYPE metaDataActionType = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMetaDataActionType() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        metaDataActionType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object newContainerName_ = "";
+      /**
+       * <code>optional string newContainerName = 15;</code>
+       * @return Whether the newContainerName field is set.
+       */
+      public boolean hasNewContainerName() {
+        return ((bitField0_ & 0x00000020) != 0);
+      }
+      /**
+       * <code>optional string newContainerName = 15;</code>
+       * @return The newContainerName.
+       */
+      public java.lang.String getNewContainerName() {
+        java.lang.Object ref = newContainerName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            newContainerName_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string newContainerName = 15;</code>
+       * @return The bytes for newContainerName.
+       */
+      public com.google.protobuf.ByteString
+          getNewContainerNameBytes() {
+        java.lang.Object ref = newContainerName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          newContainerName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string newContainerName = 15;</code>
+       * @param value The newContainerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNewContainerName(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        newContainerName_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string newContainerName = 15;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNewContainerName() {
+        newContainerName_ = getDefaultInstance().getNewContainerName();
+        bitField0_ = (bitField0_ & ~0x00000020);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string newContainerName = 15;</code>
+       * @param value The bytes for newContainerName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNewContainerNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        newContainerName_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object newKeyName_ = "";
+      /**
+       * <code>optional string newKeyName = 20;</code>
+       * @return Whether the newKeyName field is set.
+       */
+      public boolean hasNewKeyName() {
+        return ((bitField0_ & 0x00000040) != 0);
+      }
+      /**
+       * <code>optional string newKeyName = 20;</code>
+       * @return The newKeyName.
+       */
+      public java.lang.String getNewKeyName() {
+        java.lang.Object ref = newKeyName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            newKeyName_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string newKeyName = 20;</code>
+       * @return The bytes for newKeyName.
+       */
+      public com.google.protobuf.ByteString
+          getNewKeyNameBytes() {
+        java.lang.Object ref = newKeyName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          newKeyName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string newKeyName = 20;</code>
+       * @param value The newKeyName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNewKeyName(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        newKeyName_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string newKeyName = 20;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNewKeyName() {
+        newKeyName_ = getDefaultInstance().getNewKeyName();
+        bitField0_ = (bitField0_ & ~0x00000040);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string newKeyName = 20;</code>
+       * @param value The bytes for newKeyName to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNewKeyNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        newKeyName_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object metaDataKey_ = "";
+      /**
+       * <code>optional string metaDataKey = 25;</code>
+       * @return Whether the metaDataKey field is set.
+       */
+      public boolean hasMetaDataKey() {
+        return ((bitField0_ & 0x00000080) != 0);
+      }
+      /**
+       * <code>optional string metaDataKey = 25;</code>
+       * @return The metaDataKey.
+       */
+      public java.lang.String getMetaDataKey() {
+        java.lang.Object ref = metaDataKey_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            metaDataKey_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string metaDataKey = 25;</code>
+       * @return The bytes for metaDataKey.
+       */
+      public com.google.protobuf.ByteString
+          getMetaDataKeyBytes() {
+        java.lang.Object ref = metaDataKey_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          metaDataKey_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string metaDataKey = 25;</code>
+       * @param value The metaDataKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMetaDataKey(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        metaDataKey_ = value;
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string metaDataKey = 25;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMetaDataKey() {
+        metaDataKey_ = getDefaultInstance().getMetaDataKey();
+        bitField0_ = (bitField0_ & ~0x00000080);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string metaDataKey = 25;</code>
+       * @param value The bytes for metaDataKey to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMetaDataKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        metaDataKey_ = value;
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object newMetaDataValue_ = "";
+      /**
+       * <code>optional string newMetaDataValue = 30;</code>
+       * @return Whether the newMetaDataValue field is set.
+       */
+      public boolean hasNewMetaDataValue() {
+        return ((bitField0_ & 0x00000100) != 0);
+      }
+      /**
+       * <code>optional string newMetaDataValue = 30;</code>
+       * @return The newMetaDataValue.
+       */
+      public java.lang.String getNewMetaDataValue() {
+        java.lang.Object ref = newMetaDataValue_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            newMetaDataValue_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string newMetaDataValue = 30;</code>
+       * @return The bytes for newMetaDataValue.
+       */
+      public com.google.protobuf.ByteString
+          getNewMetaDataValueBytes() {
+        java.lang.Object ref = newMetaDataValue_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          newMetaDataValue_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string newMetaDataValue = 30;</code>
+       * @param value The newMetaDataValue to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNewMetaDataValue(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        newMetaDataValue_ = value;
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string newMetaDataValue = 30;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNewMetaDataValue() {
+        newMetaDataValue_ = getDefaultInstance().getNewMetaDataValue();
+        bitField0_ = (bitField0_ & ~0x00000100);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string newMetaDataValue = 30;</code>
+       * @param value The bytes for newMetaDataValue to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNewMetaDataValueBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        newMetaDataValue_ = value;
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object metadataMap_ = "";
+      /**
+       * <code>optional string metadataMap = 35;</code>
+       * @return Whether the metadataMap field is set.
+       */
+      public boolean hasMetadataMap() {
+        return ((bitField0_ & 0x00000200) != 0);
+      }
+      /**
+       * <code>optional string metadataMap = 35;</code>
+       * @return The metadataMap.
+       */
+      public java.lang.String getMetadataMap() {
+        java.lang.Object ref = metadataMap_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            metadataMap_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string metadataMap = 35;</code>
+       * @return The bytes for metadataMap.
+       */
+      public com.google.protobuf.ByteString
+          getMetadataMapBytes() {
+        java.lang.Object ref = metadataMap_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          metadataMap_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string metadataMap = 35;</code>
+       * @param value The metadataMap to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMetadataMap(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        metadataMap_ = value;
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string metadataMap = 35;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMetadataMap() {
+        metadataMap_ = getDefaultInstance().getMetadataMap();
+        bitField0_ = (bitField0_ & ~0x00000200);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string metadataMap = 35;</code>
+       * @param value The bytes for metadataMap to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMetadataMapBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        metadataMap_ = value;
+        bitField0_ |= 0x00000200;
         onChanged();
         return this;
       }
 
       private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required bytes data = 2;</code>
+       * <code>optional bytes data = 99;</code>
        * @return Whether the data field is set.
        */
       @java.lang.Override
       public boolean hasData() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000400) != 0);
       }
       /**
-       * <code>required bytes data = 2;</code>
+       * <code>optional bytes data = 99;</code>
        * @return The data.
        */
       @java.lang.Override
@@ -723,104 +2383,24 @@ public final class FileTransferRequestOuterClass {
         return data_;
       }
       /**
-       * <code>required bytes data = 2;</code>
+       * <code>optional bytes data = 99;</code>
        * @param value The data to set.
        * @return This builder for chaining.
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) { throw new NullPointerException(); }
         data_ = value;
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000400;
         onChanged();
         return this;
       }
       /**
-       * <code>required bytes data = 2;</code>
+       * <code>optional bytes data = 99;</code>
        * @return This builder for chaining.
        */
       public Builder clearData() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000400);
         data_ = getDefaultInstance().getData();
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object bucketName_ = "";
-      /**
-       * <code>optional string bucketName = 3;</code>
-       * @return Whether the bucketName field is set.
-       */
-      public boolean hasBucketName() {
-        return ((bitField0_ & 0x00000004) != 0);
-      }
-      /**
-       * <code>optional string bucketName = 3;</code>
-       * @return The bucketName.
-       */
-      public java.lang.String getBucketName() {
-        java.lang.Object ref = bucketName_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            bucketName_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string bucketName = 3;</code>
-       * @return The bytes for bucketName.
-       */
-      public com.google.protobuf.ByteString
-          getBucketNameBytes() {
-        java.lang.Object ref = bucketName_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          bucketName_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string bucketName = 3;</code>
-       * @param value The bucketName to set.
-       * @return This builder for chaining.
-       */
-      public Builder setBucketName(
-          java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
-        bucketName_ = value;
-        bitField0_ |= 0x00000004;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string bucketName = 3;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearBucketName() {
-        bucketName_ = getDefaultInstance().getBucketName();
-        bitField0_ = (bitField0_ & ~0x00000004);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string bucketName = 3;</code>
-       * @param value The bytes for bucketName to set.
-       * @return This builder for chaining.
-       */
-      public Builder setBucketNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        bucketName_ = value;
-        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -902,9 +2482,24 @@ public final class FileTransferRequestOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\031FileTransferRequest.proto\"I\n\023FileTrans" +
-      "ferRequest\022\020\n\010fileName\030\001 \002(\t\022\014\n\004data\030\002 \002" +
-      "(\014\022\022\n\nbucketName\030\003 \001(\t"
+      "\n\031FileTransferRequest.proto\"\227\005\n\023FileTran" +
+      "sferRequest\022\017\n\007keyName\030\001 \002(\t\022\025\n\rcontaine" +
+      "rName\030\002 \002(\t\022<\n\016controllerName\030\003 \002(\0162$.Fi" +
+      "leTransferRequest.CONTROLLER_NAME\0224\n\nact" +
+      "ionType\030\004 \002(\0162 .FileTransferRequest.ACTI" +
+      "ON_TYPE\022E\n\022metaDataActionType\030\n \001(\0162).Fi" +
+      "leTransferRequest.METADATA_ACTION_TYPE\022\030" +
+      "\n\020newContainerName\030\017 \001(\t\022\022\n\nnewKeyName\030\024" +
+      " \001(\t\022\023\n\013metaDataKey\030\031 \001(\t\022\030\n\020newMetaData" +
+      "Value\030\036 \001(\t\022\023\n\013metadataMap\030# \001(\t\022\014\n\004data" +
+      "\030c \001(\014\"\031\n\017CONTROLLER_NAME\022\006\n\002S3\020\000\"l\n\013ACT" +
+      "ION_TYPE\022\n\n\006UPLOAD\020\000\022\007\n\003GET\020\001\022\010\n\004MOVE\020\002\022" +
+      "\021\n\rOBJECT_EXISTS\020\003\022\023\n\017OBJECT_METADATA\020\004\022" +
+      "\n\n\006RENAME\020\005\022\n\n\006DELETE\020\006\"\223\001\n\024METADATA_ACT" +
+      "ION_TYPE\022\020\n\014ADD_METADATA\020\000\022\023\n\017UPDATE_MET" +
+      "ADATA\020\001\022\023\n\017DELETE_METADATA\020\002\022\027\n\023DELETE_A" +
+      "LL_METADATA\020\003\022\020\n\014GET_METADATA\020\004\022\024\n\020GET_A" +
+      "LL_METADATA\020\005"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -915,7 +2510,7 @@ public final class FileTransferRequestOuterClass {
     internal_static_FileTransferRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_FileTransferRequest_descriptor,
-        new java.lang.String[] { "FileName", "Data", "BucketName", });
+        new java.lang.String[] { "KeyName", "ContainerName", "ControllerName", "ActionType", "MetaDataActionType", "NewContainerName", "NewKeyName", "MetaDataKey", "NewMetaDataValue", "MetadataMap", "Data", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -1,12 +1,13 @@
 package com.davidruffner.awsfiletransfer.action;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.davidruffner.awsfiletransfer.action.objectActions.*;
 import com.davidruffner.awsfiletransfer.action.objectActions.DeleteObjectAction.DeleteObjectActionBuilder;
+import com.davidruffner.awsfiletransfer.action.objectActions.GetObjectAction;
 import com.davidruffner.awsfiletransfer.action.objectActions.MoveObjectAction.MoveObjectActionBuilder;
 import com.davidruffner.awsfiletransfer.action.objectActions.ObjectExistsAction.ObjectExistsActionBuilder;
 import com.davidruffner.awsfiletransfer.action.objectActions.ObjectMetadataAction.ObjectMetadataActionBuilder;
 import com.davidruffner.awsfiletransfer.action.objectActions.RenameObjectAction.RenameObjectActionBuilder;
+import com.davidruffner.awsfiletransfer.action.objectActions.UploadObjectAction;
 import com.davidruffner.awsfiletransfer.storage.controllers.S3Storage;
 import com.davidruffner.awsfiletransfer.storage.controllers.S3StorageObject;
 import com.davidruffner.awsfiletransfer.storage.metadata.S3Metadata;
@@ -26,15 +27,15 @@ import java.util.Map;
 
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.FAIL;
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.SUCCESS;
-import static com.davidruffner.awsfiletransfer.action.objectActions.ObjectMetadataAction.MetadataActionType.*;
-import static com.davidruffner.awsfiletransfer.storage.controllers.StorageControllerType.S3;
+import static com.davidruffner.awsfiletransfer.messaging.entities.FileTransferRequest.MetadataActionType.*;
+import static com.davidruffner.awsfiletransfer.messaging.entities.FileTransferRequest.StorageControllerType.S3;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
-@ActiveProfiles(profiles = { "local" })
+@ActiveProfiles(profiles = { "test", "local" })
 public class ObjectActionTest {
 
     private static final String BUCKET_NAME = "inventory-tracker-data";
@@ -85,6 +86,63 @@ public class ObjectActionTest {
     }
 
     @Test
+    void testUploadAction_InvalidKeyName() {
+        String data = "Hello World!";
+        InputStream dataStream = IOUtils.toInputStream(data,
+                StandardCharsets.UTF_8);
+
+        try (ActionResponse actionResponse = uploadBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("(InvalidKey).png")
+                .containerName(BUCKET_NAME)
+                .inputStream(dataStream)
+                .doAction()) {
+            assertEquals(FAIL, actionResponse.getResponseCode());
+            assertTrue(actionResponse.getErrorMessage().isPresent());
+            System.out.printf("\nUpload Invalid Key Err Msg: %s\n",
+                    actionResponse.getErrorMessage().get());
+        }
+    }
+
+    @Test
+    void testUploadAction_InvalidContainerName() {
+        String data = "Hello World!";
+        InputStream dataStream = IOUtils.toInputStream(data,
+                StandardCharsets.UTF_8);
+
+        try (ActionResponse actionResponse = uploadBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("MyFile.png")
+                .containerName("Invalid$Bucket#Name")
+                .inputStream(dataStream)
+                .doAction()) {
+            assertEquals(FAIL, actionResponse.getResponseCode());
+            assertTrue(actionResponse.getErrorMessage().isPresent());
+            System.out.printf("\nUpload Invalid Container Err Msg: %s\n",
+                    actionResponse.getErrorMessage().get());
+        }
+    }
+
+    @Test
+    void testUploadAction_InvalidInputStream() {
+        String data = "";
+        InputStream dataStream = IOUtils.toInputStream(data,
+                StandardCharsets.UTF_8);
+
+        try (ActionResponse actionResponse = uploadBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("MyFile.png")
+                .containerName(BUCKET_NAME)
+                .inputStream(dataStream)
+                .doAction()) {
+            assertEquals(FAIL, actionResponse.getResponseCode());
+            assertTrue(actionResponse.getErrorMessage().isPresent());
+            System.out.printf("\nUpload Invalid Input Stream Err Msg: %s\n",
+                    actionResponse.getErrorMessage().get());
+        }
+    }
+
+    @Test
     public void testUploadActionWithMetadata() {
         String data = "Hello World!";
         InputStream dataStream = IOUtils.toInputStream(data,
@@ -107,6 +165,50 @@ public class ObjectActionTest {
 
         S3StorageObject obj = s3Storage.getObject("NewFile.txt", BUCKET_NAME);
         assertEquals("This is a description.", obj.getMetadata("user-description"));
+        s3Storage.deleteObject("NewFile.txt", BUCKET_NAME);
+    }
+
+    @Test
+    public void testUploadAction_InvalidMetadata() {
+        String data = "Hello World!";
+        InputStream dataStream = IOUtils.toInputStream(data,
+                StandardCharsets.UTF_8);
+        s3Storage.uploadObject("MyFile", dataStream, BUCKET_NAME);
+
+        Map<String, String> invalidMetadataKeyMap = Map.ofEntries(
+                Map.entry("(InvalidKey)", "This is a description.")
+        );
+
+        Map<String, String> invalidMetadataValMap = Map.ofEntries(
+                Map.entry("MyFile", "")
+        );
+
+        try (ActionResponse invalidMetaKey = metadataBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("NewFile.txt")
+                .containerName(BUCKET_NAME)
+                .metadataActionType(ADD_METADATA)
+                .withMetadataMap(invalidMetadataKeyMap)
+                .doAction()) {
+            assertEquals(FAIL, invalidMetaKey.getResponseCode());
+            assertTrue(invalidMetaKey.getErrorMessage().isPresent());
+            System.out.printf("\nUpload Invalid Meta Key Err Msg: %s\n",
+                    invalidMetaKey.getErrorMessage().get());
+        }
+
+        try (ActionResponse invalidMetaKey = metadataBuilder.newBuilder()
+                .storageController(S3)
+                .keyName("NewFile.txt")
+                .containerName(BUCKET_NAME)
+                .metadataActionType(ADD_METADATA)
+                .withMetadataMap(invalidMetadataValMap)
+                .doAction()) {
+            assertEquals(FAIL, invalidMetaKey.getResponseCode());
+            assertTrue(invalidMetaKey.getErrorMessage().isPresent());
+            System.out.printf("\nUpload Invalid Meta Val Err Msg: %s\n\n",
+                    invalidMetaKey.getErrorMessage().get());
+        }
+
         s3Storage.deleteObject("NewFile.txt", BUCKET_NAME);
     }
 

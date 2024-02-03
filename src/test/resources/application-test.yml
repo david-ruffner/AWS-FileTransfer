@@ -1,0 +1,4 @@
+validation:
+  validKeyName: ^[A-Za-z0-9\!\@\#\$\%\^\-\_\.\?\=\+\~\<\>\s]{1,50}$
+  validContainerName: ^[A-Za-z0-9\_\-]{1,50}$
+  validMetadataValue: ^[A-Za-z0-9\!\@\#\$\%\^\-\_\.\?\=\+\~\<\>\(\)\*\s\\\/]{1,500}$

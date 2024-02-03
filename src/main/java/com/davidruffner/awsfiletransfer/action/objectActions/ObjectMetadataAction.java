@@ -3,9 +3,11 @@ package com.davidruffner.awsfiletransfer.action.objectActions;
 import com.davidruffner.awsfiletransfer.action.ActionBase;
 import com.davidruffner.awsfiletransfer.action.ActionResponse;
 import com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseBuilder;
+import com.davidruffner.awsfiletransfer.configuration.validation.ValidationConfiguration;
+import com.davidruffner.awsfiletransfer.messaging.entities.FileTransferRequest;
+import com.davidruffner.awsfiletransfer.messaging.entities.FileTransferRequest.MetadataActionType;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageBase;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageControllerFactory;
-import com.davidruffner.awsfiletransfer.storage.controllers.StorageControllerType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -15,17 +17,10 @@ import java.util.Optional;
 
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.FAIL;
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.SUCCESS;
+import static com.davidruffner.awsfiletransfer.configuration.validation.ValidationConfiguration.ValidationType.KEY_NAME;
+import static com.davidruffner.awsfiletransfer.configuration.validation.ValidationConfiguration.ValidationType.METADATA_VALUE;
 
 public class ObjectMetadataAction extends ActionBase {
-
-    public enum MetadataActionType {
-        ADD_METADATA,
-        UPDATE_METADATA,
-        DELETE_METADATA,
-        DELETE_ALL_METADATA,
-        GET_METADATA,
-        GET_ALL_METADATA
-    }
 
     private MetadataActionType metadataActionType;
     private Optional<String> metadataKey;
@@ -36,6 +31,7 @@ public class ObjectMetadataAction extends ActionBase {
         super.keyName = builder.keyName;
         super.containerName = builder.containerName;
         super.storageController = builder.storageController;
+        super.validationConfiguration = builder.validationConfiguration;
 
         this.metadataActionType = builder.metadataActionType;
         this.metadataKey = builder.metadataKey;
@@ -43,29 +39,78 @@ public class ObjectMetadataAction extends ActionBase {
         this.metadataMap = builder.metadataMap;
     }
 
-    private boolean verifyParams() {
-        return switch (this.metadataActionType) {
-            case ADD_METADATA, UPDATE_METADATA -> (this.metadataKey.isPresent()
-                    && this.newMetadataValue.isPresent()) ||
-                    (this.metadataMap.isPresent());
+    @Override
+    protected ActionResponse verifyParams() {
+        try (ActionResponse verifyKey = super.verifyKeyName()) {
+            if (null != verifyKey)
+                return verifyKey;
+        }
 
-            case GET_METADATA, DELETE_METADATA -> this.metadataKey.isPresent();
+        try (ActionResponse verifyContainer = super.verifyContainerName()) {
+            if (null != verifyContainer)
+                return verifyContainer;
+        }
 
-            default -> true;
-        };
+        switch (this.metadataActionType) {
+            case ADD_METADATA, UPDATE_METADATA -> {
+                if (!(this.metadataKey.isPresent() && this.newMetadataValue.isPresent())) {
+                    if (this.metadataMap.isEmpty()) {
+                        return new ActionResponseBuilder(FAIL)
+                                .withErrorMessage("For ADD_METADATA and UPDATE_METADATA " +
+                                        "actions, either metadataKey and newMetadataValue or " +
+                                        "metadataMap params are required")
+                                .build();
+                    } else {
+                        try (ActionResponse metadataMapResp = validationConfiguration
+                                .verifyMetadataMap(metadataMap.get())) {
+                            if (null != metadataMapResp)
+                                return metadataMapResp;
+                        }
+                    }
+                } else {
+                    if (!validationConfiguration.verifyKeyName(this.metadataKey.get())) {
+                        return new ActionResponseBuilder(FAIL)
+                                .withErrorMessage(String.format("Given metadataKey '%s' is invalid. %s",
+                                        this.metadataKey.get(), validationConfiguration
+                                                .generateErrorMessage(KEY_NAME)))
+                                .build();
+                    }
+
+                    if (!validationConfiguration.verifyMetadataValue(newMetadataValue.get())) {
+                        return new ActionResponseBuilder(FAIL)
+                                .withErrorMessage(String.format("Given newMetadataValue '%s' " +
+                                        "is invalid. %s", this.newMetadataValue.get(),
+                                        validationConfiguration
+                                        .generateErrorMessage(METADATA_VALUE)))
+                                .build();
+                    }
+                }
+            }
+
+            case GET_METADATA, DELETE_METADATA -> {
+                if (this.metadataKey.isEmpty()) {
+                    return new ActionResponseBuilder(FAIL)
+                        .withErrorMessage("For GET_METADATA and DELETE_METADATA " +
+                            "actions, metadataKey param is required")
+                        .build();
+                } else {
+                    if (!validationConfiguration.verifyKeyName(this.metadataKey.get())) {
+                        return new ActionResponseBuilder(FAIL)
+                            .withErrorMessage(String.format(
+                                "Given metadataKey '%s' is invalid. %s", this.metadataKey.get(),
+                                validationConfiguration.generateErrorMessage(KEY_NAME)
+                            ))
+                            .build();
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     @Override
-    protected ActionResponse doAction() {
-        if (!verifyParams()) {
-            return new ActionResponseBuilder(FAIL)
-                    .withErrorMessage(String.format(
-                            "Not all required params provided for " +
-                                    "metadata action type: '%s'",
-                            this.metadataActionType))
-                    .build();
-        }
-
+    protected ActionResponse defineAction() {
         try {
             String responseMessage = "";
 
@@ -143,18 +188,22 @@ public class ObjectMetadataAction extends ActionBase {
         }
     }
 
-    @Component
+    @Component(value = "ObjectMetadataActionBuilder")
     @Scope(value = "prototype")
     public static class ObjectMetadataActionBuilder {
         @Autowired
         private StorageControllerFactory storageControllerFactory;
 
+        @Autowired
+        private ValidationConfiguration validationConfiguration;
+
         public StorageControllerStep newBuilder() {
-            return new Steps(this.storageControllerFactory);
+            return new Steps(this.storageControllerFactory,
+                    this.validationConfiguration);
         }
 
         public interface StorageControllerStep {
-            KeyNameStep storageController(StorageControllerType controller);
+            KeyNameStep storageController(FileTransferRequest.StorageControllerType controller);
         }
 
         public interface KeyNameStep {
@@ -180,6 +229,7 @@ public class ObjectMetadataAction extends ActionBase {
         ContainerNameStep, MetadataActionTypeStep, OptionalStep {
             private StorageBase storageController;
             private StorageControllerFactory storageControllerFactory;
+            private ValidationConfiguration validationConfiguration;
             private String keyName;
             private String containerName;
             private MetadataActionType metadataActionType;
@@ -187,11 +237,13 @@ public class ObjectMetadataAction extends ActionBase {
             private Optional<String> newMetadataValue = Optional.empty();
             private Optional<Map<String, String>> metadataMap = Optional.empty();
 
-            private Steps(StorageControllerFactory storageControllerFactory) {
+            private Steps(StorageControllerFactory storageControllerFactory,
+                          ValidationConfiguration validationConfiguration) {
                 this.storageControllerFactory = storageControllerFactory;
+                this.validationConfiguration = validationConfiguration;
             }
 
-            public KeyNameStep storageController(StorageControllerType controllerType) {
+            public KeyNameStep storageController(FileTransferRequest.StorageControllerType controllerType) {
                 this.storageController =
                         this.storageControllerFactory.getStorageController(controllerType);
                 return this;

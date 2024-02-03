@@ -1,0 +1,10 @@
+keyName: "MyFile"
+containerName: "inventory-tracker-data"
+controllerName: S3
+actionType: UPLOAD
+metaDataActionType: ADD_METADATA
+newContainerName: "New Container"
+newKeyName: "New Key"
+metaDataKey: "Meta Data Key"
+newMetaDataValue: "New Meta Data Value"
+metadataMap: "{\"MyKey\": \"My Value\"}"

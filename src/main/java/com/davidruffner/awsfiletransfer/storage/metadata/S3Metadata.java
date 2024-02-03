@@ -17,6 +17,11 @@ public class S3Metadata implements MetadataBase {
         this.objectMetadata.setUserMetadata(userMetadata);
     }
 
+    @Override
+    public Map<String, String> getMetadataMap() {
+        return this.objectMetadata.getUserMetadata();
+    }
+
     public ObjectMetadata getObjectMetadata() {
         return objectMetadata;
     }

@@ -1,6 +1,37 @@
 message FileTransferRequest {
-  required string fileName = 1;
-  required bytes data = 2;
+  enum CONTROLLER_NAME {
+    S3 = 0;
+  }
 
-  optional string bucketName = 3;
+  enum ACTION_TYPE {
+      UPLOAD = 0;
+      GET = 1;
+      MOVE = 2;
+      OBJECT_EXISTS = 3;
+      OBJECT_METADATA = 4;
+      RENAME = 5;
+      DELETE = 6;
+  }
+
+  enum METADATA_ACTION_TYPE {
+      ADD_METADATA = 0;
+      UPDATE_METADATA = 1;
+      DELETE_METADATA = 2;
+      DELETE_ALL_METADATA = 3;
+      GET_METADATA = 4;
+      GET_ALL_METADATA = 5;
+  }
+
+  required string keyName = 1;
+  required string containerName = 2;
+  required CONTROLLER_NAME controllerName = 3;
+  required ACTION_TYPE actionType = 4;
+
+  optional METADATA_ACTION_TYPE metaDataActionType = 10;
+  optional string newContainerName = 15;
+  optional string newKeyName = 20;
+  optional string metaDataKey = 25;
+  optional string newMetaDataValue = 30;
+  optional string metadataMap = 35;
+  optional bytes data = 99;
 }

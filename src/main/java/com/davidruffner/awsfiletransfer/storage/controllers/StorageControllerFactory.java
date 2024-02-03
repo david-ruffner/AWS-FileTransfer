@@ -1,11 +1,11 @@
 package com.davidruffner.awsfiletransfer.storage.controllers;
 
+import com.davidruffner.awsfiletransfer.messaging.entities.FileTransferRequest;
+import com.davidruffner.awsfiletransfer.messaging.entities.FileTransferRequest.StorageControllerType;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-
-import static com.davidruffner.awsfiletransfer.storage.controllers.StorageControllerType.S3;
+import static com.davidruffner.awsfiletransfer.messaging.entities.FileTransferRequest.StorageControllerType.getBeanName;
 
 @Component
 public class StorageControllerFactory {
@@ -25,7 +25,7 @@ public class StorageControllerFactory {
 
     public StorageBase getStorageController(StorageControllerType controller) throws RuntimeException {
         try {
-            return (StorageBase) this.applicationContext.getBean(controller.beanName);
+            return (StorageBase) this.applicationContext.getBean(getBeanName(controller));
         } catch (Exception ex) {
             throw new RuntimeException(String.format(
                     "File Transfer Exception | %s", ex.getMessage()));

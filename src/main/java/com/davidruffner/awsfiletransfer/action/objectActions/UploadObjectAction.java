@@ -3,9 +3,10 @@ package com.davidruffner.awsfiletransfer.action.objectActions;
 import com.davidruffner.awsfiletransfer.action.ActionBase;
 import com.davidruffner.awsfiletransfer.action.ActionResponse;
 import com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseBuilder;
+import com.davidruffner.awsfiletransfer.configuration.validation.ValidationConfiguration;
+import com.davidruffner.awsfiletransfer.messaging.entities.FileTransferRequest;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageBase;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageControllerFactory;
-import com.davidruffner.awsfiletransfer.storage.controllers.StorageControllerType;
 import com.davidruffner.awsfiletransfer.storage.metadata.MetadataBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -25,13 +26,50 @@ public class UploadObjectAction extends ActionBase {
         super.storageController = builder.storageController;
         super.keyName = builder.keyName;
         super.containerName = builder.containerName;
+        super.validationConfiguration = builder.validationConfiguration;
 
         this.inputStream = builder.inputStream;
         this.metadata = builder.metadata;
     }
 
     @Override
-    protected ActionResponse doAction() {
+    protected ActionResponse verifyParams() {
+        try (ActionResponse verifyKeyName = super.verifyKeyName()) {
+            if (null != verifyKeyName)
+                return verifyKeyName;
+        }
+
+        try (ActionResponse verifyContainerName = super.verifyContainerName()) {
+            if (null != verifyContainerName)
+                return verifyContainerName;
+        }
+
+        try {
+            if (null == this.inputStream || this.inputStream.available() == 0) {
+                return new ActionResponseBuilder(FAIL)
+                    .withErrorMessage("Given inputStream was either null or empty")
+                    .build();
+            }
+        } catch (Exception ex) {
+            return new ActionResponseBuilder(FAIL)
+                .withErrorMessage(String.format("File Transfer Exception | %s",
+                    ex.getMessage()))
+                .build();
+        }
+
+        if (this.metadata.isPresent()) {
+            try (ActionResponse verifyMetadata = validationConfiguration
+                    .verifyMetadataMap(this.metadata.get().getMetadataMap())) {
+                if (null != verifyMetadata)
+                    return verifyMetadata;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    protected ActionResponse defineAction() {
         try {
             if (this.metadata.isPresent()) {
                 super.storageController.uploadObject(super.keyName, this.inputStream,
@@ -53,18 +91,22 @@ public class UploadObjectAction extends ActionBase {
         }
     }
 
-    @Component
+    @Component(value = "UploadObjectActionBuilder")
     @Scope(value = "prototype")
     public static class Builder {
         @Autowired
         private StorageControllerFactory storageControllerFactory;
 
+        @Autowired
+        private ValidationConfiguration validationConfiguration;
+
         public StorageControllerStep newBuilder() {
-            return new Steps(this.storageControllerFactory);
+            return new Steps(this.storageControllerFactory,
+                    this.validationConfiguration);
         }
 
         public interface StorageControllerStep {
-            KeyNameStep storageController(StorageControllerType controller);
+            KeyNameStep storageController(FileTransferRequest.StorageControllerType controller);
         }
 
         public interface KeyNameStep {
@@ -88,16 +130,19 @@ public class UploadObjectAction extends ActionBase {
                 InputStreamStep, OptionalStep {
             private StorageBase storageController;
             private StorageControllerFactory storageControllerFactory;
+            private ValidationConfiguration validationConfiguration;
             private String keyName;
             private String containerName;
             private InputStream inputStream;
             private Optional<MetadataBase> metadata = Optional.empty();
 
-            private Steps(StorageControllerFactory storageControllerFactory) {
+            private Steps(StorageControllerFactory storageControllerFactory,
+                          ValidationConfiguration validationConfiguration) {
                 this.storageControllerFactory = storageControllerFactory;
+                this.validationConfiguration = validationConfiguration;
             }
 
-            public KeyNameStep storageController(StorageControllerType controller) {
+            public KeyNameStep storageController(FileTransferRequest.StorageControllerType controller) {
                 this.storageController =
                         this.storageControllerFactory.getStorageController(controller);
                 return this;

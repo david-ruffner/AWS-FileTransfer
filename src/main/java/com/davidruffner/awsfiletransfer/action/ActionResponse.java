@@ -5,8 +5,13 @@ import com.davidruffner.awsfiletransfer.storage.controllers.S3StorageObject;
 import java.util.Map;
 import java.util.Optional;
 
-public class ActionResponse {
+public class ActionResponse implements AutoCloseable {
     private static final String ERR_MSG = "File Transfer Exception | %s";
+
+    @Override
+    public void close() {
+
+    }
 
     public enum ActionResponseCode {
         SUCCESS,
