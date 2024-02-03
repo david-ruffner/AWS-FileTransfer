@@ -25,6 +25,7 @@ public class UploadObjectAction extends ActionBase {
         super.storageController = builder.storageController;
         super.keyName = builder.keyName;
         super.containerName = builder.containerName;
+
         this.inputStream = builder.inputStream;
         this.metadata = builder.metadata;
     }

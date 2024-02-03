@@ -1,5 +1,6 @@
 package com.davidruffner.awsfiletransfer.action.objectActions;
 
+import com.davidruffner.awsfiletransfer.action.ActionBase;
 import com.davidruffner.awsfiletransfer.action.ActionResponse;
 import com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseBuilder;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageBase;
@@ -15,7 +16,7 @@ import java.util.Optional;
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.FAIL;
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.SUCCESS;
 
-public class ObjectMetadataAction {
+public class ObjectMetadataAction extends ActionBase {
 
     public enum MetadataActionType {
         ADD_METADATA,
@@ -26,18 +27,16 @@ public class ObjectMetadataAction {
         GET_ALL_METADATA
     }
 
-    private String keyName;
-    private String containerName;
-    private StorageBase storageController;
     private MetadataActionType metadataActionType;
     private Optional<String> metadataKey;
     private Optional<String> newMetadataValue;
     private Optional<Map<String, String>> metadataMap;
 
     private ObjectMetadataAction(ObjectMetadataActionBuilder.Steps builder) {
-        this.keyName = builder.keyName;
-        this.containerName = builder.containerName;
-        this.storageController = builder.storageController;
+        super.keyName = builder.keyName;
+        super.containerName = builder.containerName;
+        super.storageController = builder.storageController;
+
         this.metadataActionType = builder.metadataActionType;
         this.metadataKey = builder.metadataKey;
         this.newMetadataValue = builder.newMetadataValue;
@@ -56,6 +55,7 @@ public class ObjectMetadataAction {
         };
     }
 
+    @Override
     protected ActionResponse doAction() {
         if (!verifyParams()) {
             return new ActionResponseBuilder(FAIL)

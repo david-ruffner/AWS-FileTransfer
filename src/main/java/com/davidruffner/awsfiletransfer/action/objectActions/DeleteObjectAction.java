@@ -14,10 +14,6 @@ import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionRespo
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.SUCCESS;
 
 public class DeleteObjectAction extends ActionBase {
-//    private String keyName;
-//    private String containerName;
-//    private StorageBase storageController;
-
     private DeleteObjectAction(DeleteObjectActionBuilder.Steps builder) {
         super.keyName = builder.keyName;
         super.containerName = builder.containerName;

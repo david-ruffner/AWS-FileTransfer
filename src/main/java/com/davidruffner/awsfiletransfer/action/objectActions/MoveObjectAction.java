@@ -1,5 +1,6 @@
 package com.davidruffner.awsfiletransfer.action.objectActions;
 
+import com.davidruffner.awsfiletransfer.action.ActionBase;
 import com.davidruffner.awsfiletransfer.action.ActionResponse;
 import com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseBuilder;
 import com.davidruffner.awsfiletransfer.storage.controllers.StorageBase;
@@ -14,21 +15,21 @@ import java.util.Optional;
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.FAIL;
 import static com.davidruffner.awsfiletransfer.action.ActionResponse.ActionResponseCode.SUCCESS;
 
-public class MoveObjectAction {
-    private String keyName;
+public class MoveObjectAction extends ActionBase {
     private String oldContainerName;
     private String newContainerName;
-    private StorageBase storageController;
     private Optional<String> newKeyName;
 
     private MoveObjectAction(MoveObjectActionBuilder.Steps builder) {
-        this.keyName = builder.keyName;
+        super.keyName = builder.keyName;
+        super.storageController = builder.storageController;
+
         this.oldContainerName = builder.oldContainerName;
         this.newContainerName = builder.newContainerName;
-        this.storageController = builder.storageController;
         this.newKeyName = builder.newKeyName;
     }
 
+    @Override
     protected ActionResponse doAction() {
         try {
             if (this.newKeyName.isPresent()) {
